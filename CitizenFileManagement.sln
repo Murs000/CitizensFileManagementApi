@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenFileManagement.API", "CitizenFileManagement.API\CitizenFileManagement.API.csproj", "{C67FC744-9981-48F5-A050-3925EFACD6CC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{E5260547-B2E4-49D5-872A-FE4BDCC654BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenFileManagement.Core.Domain", "Core\CitizenFileManagement.Core.Domain\CitizenFileManagement.Core.Domain.csproj", "{5D67FD37-99FE-431D-84DE-F2EBCF586F97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenFileManagement.Core.Application", "Core\CitizenFileManagement.Core.Application\CitizenFileManagement.Core.Application.csproj", "{722EAA0F-D152-4774-89D9-E82DE3C54A98}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{7EE68211-D1D3-4A3D-B00C-439B5D36D712}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenFileManagement.Infrastructure.Persistence", "Infrastructure\CitizenFileManagement.Infrastructure.Persistence\CitizenFileManagement.Infrastructure.Persistence.csproj", "{28A7C7EB-F439-457A-A4E7-E7B7D8A3C73D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenFileManagement.Infrastructure.External", "Infrastructure\CitizenFileManagement.Infrastructure.External\CitizenFileManagement.Infrastructure.External.csproj", "{D7BCFC1A-A241-4EA0-9518-1221FC351EE6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C67FC744-9981-48F5-A050-3925EFACD6CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C67FC744-9981-48F5-A050-3925EFACD6CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C67FC744-9981-48F5-A050-3925EFACD6CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C67FC744-9981-48F5-A050-3925EFACD6CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D67FD37-99FE-431D-84DE-F2EBCF586F97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D67FD37-99FE-431D-84DE-F2EBCF586F97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D67FD37-99FE-431D-84DE-F2EBCF586F97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D67FD37-99FE-431D-84DE-F2EBCF586F97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{722EAA0F-D152-4774-89D9-E82DE3C54A98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{722EAA0F-D152-4774-89D9-E82DE3C54A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{722EAA0F-D152-4774-89D9-E82DE3C54A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{722EAA0F-D152-4774-89D9-E82DE3C54A98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28A7C7EB-F439-457A-A4E7-E7B7D8A3C73D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28A7C7EB-F439-457A-A4E7-E7B7D8A3C73D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28A7C7EB-F439-457A-A4E7-E7B7D8A3C73D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28A7C7EB-F439-457A-A4E7-E7B7D8A3C73D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7BCFC1A-A241-4EA0-9518-1221FC351EE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7BCFC1A-A241-4EA0-9518-1221FC351EE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7BCFC1A-A241-4EA0-9518-1221FC351EE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7BCFC1A-A241-4EA0-9518-1221FC351EE6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5D67FD37-99FE-431D-84DE-F2EBCF586F97} = {E5260547-B2E4-49D5-872A-FE4BDCC654BD}
+		{722EAA0F-D152-4774-89D9-E82DE3C54A98} = {E5260547-B2E4-49D5-872A-FE4BDCC654BD}
+		{28A7C7EB-F439-457A-A4E7-E7B7D8A3C73D} = {7EE68211-D1D3-4A3D-B00C-439B5D36D712}
+		{D7BCFC1A-A241-4EA0-9518-1221FC351EE6} = {7EE68211-D1D3-4A3D-B00C-439B5D36D712}
+	EndGlobalSection
+EndGlobal

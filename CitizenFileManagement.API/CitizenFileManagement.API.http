@@ -1,0 +1,6 @@
+@CitizenFileManagement.API_HostAddress = http://localhost:5110
+
+GET {{CitizenFileManagement.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

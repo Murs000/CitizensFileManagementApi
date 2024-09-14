@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.6" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\CitizenFileManagement.Core.Domain\CitizenFileManagement.Core.Domain.csproj" />
+    <ProjectReference Include="..\Core\CitizenFileManagement.Core.Application\CitizenFileManagement.Core.Application.csproj" />
+    <ProjectReference Include="..\Infrastructure\CitizenFileManagement.Infrastructure.Persistence\CitizenFileManagement.Infrastructure.Persistence.csproj" />
+    <ProjectReference Include="..\Infrastructure\CitizenFileManagement.Infrastructure.External\CitizenFileManagement.Infrastructure.External.csproj" />
+  </ItemGroup>
+
+</Project>
