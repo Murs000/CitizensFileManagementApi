@@ -2,7 +2,7 @@ using System.Threading.Tasks.Dataflow;
 
 namespace CitizenFileManagement.Core.Domain.Common;
 
-public interface IAuditable : ICreatable, IEditable
+public interface IAuditable<T> : ICreatable<T>, IEditable<T>
 {
-    public void SetCredentials(int userId);
+    public T SetCredentials(int userId);
 }

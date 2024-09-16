@@ -2,7 +2,7 @@ using CitizenFileManagement.Core.Domain.Common;
 
 namespace CitizenFileManagement.Core.Domain.Entities;
 
-public class Customer : IEntity, IAuditable
+public class Customer : IEntity, IAuditable<Customer>
 {
     public int Id { get; set; }
 
@@ -10,27 +10,34 @@ public class Customer : IEntity, IAuditable
     public string Surname { get; set; }
     public List<Document> Documents { get; set; }
 
-    public void SetDetails(string name, string surname)
+    public int UserId { get; set; }
+    public User User { get; set; }
+
+    public Customer SetDetails(string name, string surname)
     {
         Name = name;
         Surname = surname;
+
+        return this;
     }
 
-    public int? CreaterId { get; set; }
-    public User? Creater { get; set; }
+    public int? CreatorId { get; set; }
+    public User? Creator { get; set; }
     public DateTime? CreateDate { get; set; }
     public int? ModifierId { get; set; }
     public User? Modifier { get; set; }
     public DateTime? ModifyDate { get; set; }
     public bool IsDeleted { get; set; }
 
-    public void SetCreationCredentials(int userId)
+    public Customer SetCreationCredentials(int userId)
     {
-        CreaterId = userId;
+        CreatorId = userId;
         CreateDate = DateTime.UtcNow.AddHours(4);
+
+        return this;
     }
 
-    public void SetCredentials(int userId)
+    public Customer SetCredentials(int userId)
     {
         if(CreateDate == null)
         {
@@ -40,11 +47,15 @@ public class Customer : IEntity, IAuditable
         {
             SetModifyCredentials(userId);
         }
+
+        return this;
     }
 
-    public void SetModifyCredentials(int userId)
+    public Customer SetModifyCredentials(int userId)
     {
         ModifierId = userId;
         ModifyDate = DateTime.UtcNow.AddHours(4);
+
+        return this;
     }
 }

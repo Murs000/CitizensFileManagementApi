@@ -3,44 +3,53 @@ using CitizenFileManagement.Core.Domain.Enums;
 
 namespace CitizenFileManagement.Core.Domain.Entities;
 
-public class User : IEntity, IAuditable
+public class User : IEntity, IAuditable<User>
 {
     public int Id { get; set; }
 
     public string Username { get; set; }
     public string Email { get; set; }
     public string PasswordHash { get; set; }
-    public string PaswordSalt { get; set; }
+    public string PasswordSalt { get; set; }
     public UserRole Role { get; set; }
 
-    public void SetPassword(string passwordHash, string paswordSalt)
+    public int CustomerId { get; set; }
+    public Customer Customer { get; set; }
+
+    public User SetPassword(string passwordHash, string paswordSalt)
     {
         PasswordHash = passwordHash;
-        PaswordSalt = paswordSalt;
+        PasswordSalt = paswordSalt;
+
+        return this;
     }
-    public void SetDetails(string username, string email, UserRole role)
+    public User SetDetails(string username, string email, UserRole role)
     {
         Email = email;
         Username = username;
         Role = role;
+
+        return this;
     }
 
 
-    public int? CreaterId { get; set; }
-    public User? Creater { get; set; }
+    public int? CreatorId { get; set; }
+    public User? Creator { get; set; }
     public DateTime? CreateDate { get; set; }
     public int? ModifierId { get; set; }
     public User? Modifier { get; set; }
     public DateTime? ModifyDate { get; set; }
     public bool IsDeleted { get; set; }
 
-    public void SetCreationCredentials(int userId)
+    public User SetCreationCredentials(int userId)
     {
-        CreaterId = userId;
+        CreatorId = userId;
         CreateDate = DateTime.UtcNow.AddHours(4);
+
+        return this;
     }
 
-    public void SetCredentials(int userId)
+    public User SetCredentials(int userId)
     {
         if(CreateDate == null)
         {
@@ -50,11 +59,15 @@ public class User : IEntity, IAuditable
         {
             SetModifyCredentials(userId);
         }
+
+        return this;
     }
 
-    public void SetModifyCredentials(int userId)
+    public User SetModifyCredentials(int userId)
     {
         ModifierId = userId;
         ModifyDate = DateTime.UtcNow.AddHours(4);
+
+        return this;
     }
 }

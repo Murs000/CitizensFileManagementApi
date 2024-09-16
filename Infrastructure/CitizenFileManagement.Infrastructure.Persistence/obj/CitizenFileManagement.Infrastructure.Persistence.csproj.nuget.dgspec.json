@@ -4,14 +4,90 @@
     "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.Persistence/CitizenFileManagement.Infrastructure.Persistence.csproj": {}
   },
   "projects": {
-    "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.Persistence/CitizenFileManagement.Infrastructure.Persistence.csproj": {
+    "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/CitizenFileManagement.Core.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.Persistence/CitizenFileManagement.Infrastructure.Persistence.csproj",
-        "projectName": "CitizenFileManagement.Infrastructure.Persistence",
-        "projectPath": "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.Persistence/CitizenFileManagement.Infrastructure.Persistence.csproj",
+        "projectUniqueName": "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/CitizenFileManagement.Core.Application.csproj",
+        "projectName": "CitizenFileManagement.Core.Application",
+        "projectPath": "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/CitizenFileManagement.Core.Application.csproj",
         "packagesPath": "/Users/mursal/.nuget/packages/",
-        "outputPath": "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.Persistence/obj/",
+        "outputPath": "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/mursal/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Domain/CitizenFileManagement.Core.Domain.csproj": {
+                "projectPath": "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Domain/CitizenFileManagement.Core.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
+            "FluentValidation.DependencyInjectionExtensions": {
+              "target": "Package",
+              "version": "[11.10.0, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.4.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.302/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Domain/CitizenFileManagement.Core.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Domain/CitizenFileManagement.Core.Domain.csproj",
+        "projectName": "CitizenFileManagement.Core.Domain",
+        "projectPath": "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Domain/CitizenFileManagement.Core.Domain.csproj",
+        "packagesPath": "/Users/mursal/.nuget/packages/",
+        "outputPath": "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/mursal/.nuget/NuGet/NuGet.Config"
@@ -42,6 +118,90 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.302/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.Persistence/CitizenFileManagement.Infrastructure.Persistence.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.Persistence/CitizenFileManagement.Infrastructure.Persistence.csproj",
+        "projectName": "CitizenFileManagement.Infrastructure.Persistence",
+        "projectPath": "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.Persistence/CitizenFileManagement.Infrastructure.Persistence.csproj",
+        "packagesPath": "/Users/mursal/.nuget/packages/",
+        "outputPath": "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.Persistence/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/mursal/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/CitizenFileManagement.Core.Application.csproj": {
+                "projectPath": "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/CitizenFileManagement.Core.Application.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

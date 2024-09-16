@@ -3,7 +3,7 @@ using CitizenFileManagement.Core.Domain.Enums;
 
 namespace CitizenFileManagement.Core.Domain.Entities;
 
-public class Document : IEntity, IAuditable
+public class Document : IEntity, IAuditable<Document>
 {
     public int Id { get; set; }
 
@@ -11,29 +11,37 @@ public class Document : IEntity, IAuditable
     public string Path { get; set; }
     public string Description { get; set; }
     public DocumentType Type { get; set; }
-    public void SetDetails(string name, string path, string description, DocumentType type)
+
+    public int CustomerId { get; set; }
+    public Customer Customer { get; set; }
+
+    public Document SetDetails(string name, string path, string description, DocumentType type)
     {
         Name = name;
         Path = path;
         Description = description;
         Type = type;
+
+        return this;
     }
 
-    public int? CreaterId { get; set; }
-    public User? Creater { get; set; }
+    public int? CreatorId { get; set; }
+    public User? Creator { get; set; }
     public DateTime? CreateDate { get; set; }
     public int? ModifierId { get; set; }
     public User? Modifier { get; set; }
     public DateTime? ModifyDate { get; set; }
     public bool IsDeleted { get; set; }
 
-    public void SetCreationCredentials(int userId)
+    public Document SetCreationCredentials(int userId)
     {
-        CreaterId = userId;
+        CreatorId = userId;
         CreateDate = DateTime.UtcNow.AddHours(4);
+
+        return this;
     }
 
-    public void SetCredentials(int userId)
+    public Document SetCredentials(int userId)
     {
         if(CreateDate == null)
         {
@@ -43,11 +51,14 @@ public class Document : IEntity, IAuditable
         {
             SetModifyCredentials(userId);
         }
+        return this;
     }
 
-    public void SetModifyCredentials(int userId)
+    public Document SetModifyCredentials(int userId)
     {
         ModifierId = userId;
         ModifyDate = DateTime.UtcNow.AddHours(4);
+
+        return this;
     }
 }

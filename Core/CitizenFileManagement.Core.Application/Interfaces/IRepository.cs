@@ -8,8 +8,8 @@ public interface IRepository<T> where T : class
     Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, params string[]? includes);
     Task<T> GetAsync(Expression<Func<T, bool>>? filter = null, params string[]? includes);
     Task AddAsync(T entity);
-    Task UpdateAsync(T entity);
-    Task SoftDeleteAsync(T entity);
-    Task HardDeleteAsync(T entity);
-    Task Commit();
+    void Update(T entity);
+    void SoftDelete(T entity);
+    void HardDelete(T entity);
+    Task SaveAsync();
 }

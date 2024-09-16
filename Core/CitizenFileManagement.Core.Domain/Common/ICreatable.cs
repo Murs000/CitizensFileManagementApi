@@ -2,11 +2,11 @@ using CitizenFileManagement.Core.Domain.Entities;
 
 namespace CitizenFileManagement.Core.Domain.Common;
 
-public interface ICreatable
+public interface ICreatable<T>
 {
-    public int? CreaterId { get; set; }
-    public User? Creater { get; set; } 
+    public int? CreatorId { get; set; }
+    public User? Creator { get; set; } 
     public DateTime? CreateDate { get; set; }
 
-    public void SetCreationCredentials(int userId);
+    public T SetCreationCredentials(int userId);
 }
