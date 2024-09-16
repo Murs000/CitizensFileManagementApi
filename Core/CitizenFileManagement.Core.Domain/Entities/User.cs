@@ -32,6 +32,7 @@ public class User : IEntity, IAuditable
     public int? ModifierId { get; set; }
     public User? Modifier { get; set; }
     public DateTime? ModifyDate { get; set; }
+    public bool IsDeleted { get; set; }
 
     public void SetCreationCredentials(int userId)
     {
