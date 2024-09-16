@@ -107,6 +107,46 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "CitizenFileManagement.Core.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/CitizenFileManagement.Core.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CitizenFileManagement.Core.Application.dll": {}
+        }
+      },
+      "CitizenFileManagement.Core.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/CitizenFileManagement.Core.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CitizenFileManagement.Core.Domain.dll": {}
+        }
+      },
+      "CitizenFileManagement.Infrastructure.External/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/CitizenFileManagement.Infrastructure.External.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CitizenFileManagement.Infrastructure.External.dll": {}
+        }
+      },
+      "CitizenFileManagement.Infrastructure.Persistence/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/CitizenFileManagement.Infrastructure.Persistence.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CitizenFileManagement.Infrastructure.Persistence.dll": {}
+        }
       }
     }
   },
@@ -451,10 +491,34 @@
         "swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
+    },
+    "CitizenFileManagement.Core.Application/1.0.0": {
+      "type": "project",
+      "path": "../Core/CitizenFileManagement.Core.Application/CitizenFileManagement.Core.Application.csproj",
+      "msbuildProject": "../Core/CitizenFileManagement.Core.Application/CitizenFileManagement.Core.Application.csproj"
+    },
+    "CitizenFileManagement.Core.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Core/CitizenFileManagement.Core.Domain/CitizenFileManagement.Core.Domain.csproj",
+      "msbuildProject": "../Core/CitizenFileManagement.Core.Domain/CitizenFileManagement.Core.Domain.csproj"
+    },
+    "CitizenFileManagement.Infrastructure.External/1.0.0": {
+      "type": "project",
+      "path": "../Infrastructure/CitizenFileManagement.Infrastructure.External/CitizenFileManagement.Infrastructure.External.csproj",
+      "msbuildProject": "../Infrastructure/CitizenFileManagement.Infrastructure.External/CitizenFileManagement.Infrastructure.External.csproj"
+    },
+    "CitizenFileManagement.Infrastructure.Persistence/1.0.0": {
+      "type": "project",
+      "path": "../Infrastructure/CitizenFileManagement.Infrastructure.Persistence/CitizenFileManagement.Infrastructure.Persistence.csproj",
+      "msbuildProject": "../Infrastructure/CitizenFileManagement.Infrastructure.Persistence/CitizenFileManagement.Infrastructure.Persistence.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "CitizenFileManagement.Core.Application >= 1.0.0",
+      "CitizenFileManagement.Core.Domain >= 1.0.0",
+      "CitizenFileManagement.Infrastructure.External >= 1.0.0",
+      "CitizenFileManagement.Infrastructure.Persistence >= 1.0.0",
       "Microsoft.AspNetCore.OpenApi >= 8.0.6",
       "Swashbuckle.AspNetCore >= 6.4.0"
     ]
@@ -483,7 +547,20 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/CitizenFileManagement.Core.Application.csproj": {
+              "projectPath": "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/CitizenFileManagement.Core.Application.csproj"
+            },
+            "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Domain/CitizenFileManagement.Core.Domain.csproj": {
+              "projectPath": "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Domain/CitizenFileManagement.Core.Domain.csproj"
+            },
+            "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.External/CitizenFileManagement.Infrastructure.External.csproj": {
+              "projectPath": "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.External/CitizenFileManagement.Infrastructure.External.csproj"
+            },
+            "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.Persistence/CitizenFileManagement.Infrastructure.Persistence.csproj": {
+              "projectPath": "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.Persistence/CitizenFileManagement.Infrastructure.Persistence.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
