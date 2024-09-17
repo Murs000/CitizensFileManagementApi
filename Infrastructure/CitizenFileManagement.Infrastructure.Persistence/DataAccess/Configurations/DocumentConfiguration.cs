@@ -24,6 +24,14 @@ public class DocumentConfiguration : IEntityTypeConfiguration<Document>
         builder.Property(d => d.Type)
             .IsRequired();
 
+        builder.HasOne(d => d.Creator)
+            .WithMany()
+            .HasForeignKey(d => d.CreatorId);
+
+        builder.HasOne(d => d.Modifier)
+            .WithMany()
+            .HasForeignKey(d => d.ModifierId);
+
         builder.Property(d => d.CreateDate).IsRequired(false);
         builder.Property(d => d.ModifyDate).IsRequired(false);
         builder.Property(d => d.IsDeleted).HasDefaultValue(false);

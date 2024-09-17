@@ -2751,6 +2751,7 @@
       "CitizenFileManagement.Infrastructure.External >= 1.0.0",
       "Microsoft.EntityFrameworkCore >= 8.0.8",
       "Microsoft.EntityFrameworkCore.Design >= 8.0.8",
+      "Microsoft.EntityFrameworkCore.Relational >= 8.0.8",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.8",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.4",
       "Scrutor >= 4.2.2",
@@ -2813,6 +2814,10 @@
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",
+            "target": "Package",
+            "version": "[8.0.8, )"
+          },
+          "Microsoft.EntityFrameworkCore.Relational": {
             "target": "Package",
             "version": "[8.0.8, )"
           },

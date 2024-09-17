@@ -27,6 +27,14 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .WithOne()
             .HasForeignKey(d => d.CustomerId); // Assuming Document has a foreign key to Customer
 
+        builder.HasOne(c => c.Creator)
+            .WithMany()
+            .HasForeignKey(c => c.CreatorId);
+
+        builder.HasOne(c => c.Modifier)
+            .WithMany()
+            .HasForeignKey(c => c.ModifierId);
+
         // Audit fields (optional)
         builder.Property(c => c.CreateDate).IsRequired(false);
         builder.Property(c => c.ModifyDate).IsRequired(false);

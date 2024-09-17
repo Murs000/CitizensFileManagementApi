@@ -1,6 +1,7 @@
 using System.Text;
 using CitizenFileManagement.Core.Application;
 using CitizenFileManagement.Infrastructure.Persistence;
+using CitizenFileManagement.Infrastructure.Persistence.DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -9,7 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddPersistenceRegistration(builder.Configuration);
+
 builder.Services.AddApplicationRegistration();
 
 // var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
@@ -34,7 +38,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorization();
-builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(c =>
 {
     var securityScheme = new OpenApiSecurityScheme
@@ -79,6 +83,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<CitizenFileDB>();
+    db.Database.EnsureCreated();
 }
 
 app.UseHttpsRedirection();

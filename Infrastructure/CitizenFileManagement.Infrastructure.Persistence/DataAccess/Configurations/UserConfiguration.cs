@@ -40,6 +40,14 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .WithOne(c => c.User)
             .HasForeignKey<Customer>(c => c.UserId);
 
+        builder.HasOne(u => u.Creator)
+            .WithMany()
+            .HasForeignKey(u => u.CreatorId);
+
+        builder.HasOne(u => u.Modifier)
+            .WithMany()
+            .HasForeignKey(u => u.ModifierId);
+
         // Audit fields
         builder.Property(u => u.CreateDate).IsRequired(false);
         builder.Property(u => u.ModifyDate).IsRequired(false);

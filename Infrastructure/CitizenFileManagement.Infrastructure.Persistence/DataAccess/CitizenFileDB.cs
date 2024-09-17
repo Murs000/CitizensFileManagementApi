@@ -15,9 +15,9 @@ public class CitizenFileDB : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new CustomerConfiguration());
         modelBuilder.ApplyConfiguration(new DocumentConfiguration());
-        modelBuilder.ApplyConfiguration(new UserConfiguration());
         
         base.OnModelCreating(modelBuilder);
     }

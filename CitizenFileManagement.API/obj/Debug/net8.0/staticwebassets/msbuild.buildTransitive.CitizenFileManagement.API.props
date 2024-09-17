@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../buildMultiTargeting/CitizenFileManagement.API.props" />
+</Project>

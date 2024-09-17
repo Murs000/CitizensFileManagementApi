@@ -14,3 +14,5 @@
 /Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/obj/Debug/net8.0/refint/CitizenFileManagement.Core.Application.dll
 /Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/obj/Debug/net8.0/CitizenFileManagement.Core.Application.pdb
 /Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/obj/Debug/net8.0/ref/CitizenFileManagement.Core.Application.dll
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/bin/Debug/net8.0/CitizenFileManagement.Infrastructure.External.dll
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/bin/Debug/net8.0/CitizenFileManagement.Infrastructure.External.pdb
