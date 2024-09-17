@@ -10,3 +10,4 @@
 /Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.External/obj/Debug/net8.0/refint/CitizenFileManagement.Infrastructure.External.dll
 /Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.External/obj/Debug/net8.0/CitizenFileManagement.Infrastructure.External.pdb
 /Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.External/obj/Debug/net8.0/ref/CitizenFileManagement.Infrastructure.External.dll
+/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.External/obj/Debug/net8.0/CitizenFileManagement.Infrastructure.External.csproj.AssemblyReference.cache

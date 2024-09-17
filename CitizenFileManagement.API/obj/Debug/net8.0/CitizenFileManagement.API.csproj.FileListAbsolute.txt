@@ -60,3 +60,4 @@
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/obj/Debug/net8.0/CitizenFileManagement.API.pdb
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/obj/Debug/net8.0/CitizenFileManagement.API.genruntimeconfig.cache
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/obj/Debug/net8.0/ref/CitizenFileManagement.API.dll
+/Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/Microsoft.Extensions.Options.dll

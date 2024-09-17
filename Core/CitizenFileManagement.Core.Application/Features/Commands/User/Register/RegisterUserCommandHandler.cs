@@ -1,4 +1,5 @@
 using CitizenFileManagement.Core.Application.Interfaces;
+using CitizenFileManagement.Core.Domain.Entities;
 using CitizenFileManagement.Infrastructure.External.Helpers;
 using MediatR;
 
@@ -23,6 +24,12 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, b
             Email = request.Email,
             IsActivated = false,
         };
+        var customer = new Customer
+        {
+            Name = request.Name,
+            Surname = request.Surname
+        };
+        user.Customer = customer;
 
         (string hash, string salt) = PasswordHelper.HashPassword(request.Password);
         user.SetPassword(hash, salt);

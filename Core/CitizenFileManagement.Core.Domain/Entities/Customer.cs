@@ -8,7 +8,7 @@ public class Customer : IEntity, IAuditable<Customer>
 
     public string Name { get; set; }
     public string Surname { get; set; }
-    public List<Document> Documents { get; set; }
+    public List<Document>? Documents { get; set; }
 
     public int UserId { get; set; }
     public User User { get; set; }
