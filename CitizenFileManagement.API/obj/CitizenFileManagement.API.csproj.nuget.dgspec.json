@@ -304,6 +304,9 @@
             "projectReferences": {
               "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/CitizenFileManagement.Core.Application.csproj": {
                 "projectPath": "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/CitizenFileManagement.Core.Application.csproj"
+              },
+              "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.External/CitizenFileManagement.Infrastructure.External.csproj": {
+                "projectPath": "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.External/CitizenFileManagement.Infrastructure.External.csproj"
               }
             }
           }
@@ -342,6 +345,10 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[8.0.4, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.0.2, )"
             }
           },
           "imports": [
