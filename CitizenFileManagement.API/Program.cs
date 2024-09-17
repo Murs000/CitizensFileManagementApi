@@ -1,4 +1,5 @@
 using System.Text;
+using CitizenFileManagement.API.Middlewares;
 using CitizenFileManagement.Core.Application;
 using CitizenFileManagement.Infrastructure.Persistence;
 using CitizenFileManagement.Infrastructure.Persistence.DataAccess;
@@ -76,7 +77,7 @@ builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
-//app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

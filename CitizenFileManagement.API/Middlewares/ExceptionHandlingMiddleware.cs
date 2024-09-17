@@ -42,18 +42,18 @@ public class ExceptionHandlingMiddleware
                 break;
 
             case KeyNotFoundException:
-            // case NotFoundException:
-            //     response.StatusCode = (int)HttpStatusCode.NotFound;
-            //     problemDetails.Detail = ex.Message;
-            //     problemDetails.Title = "Not Found";
-            //     break;
-            // case ValidationException exc:
-            //     response.StatusCode = (int)HttpStatusCode.BadRequest;
-            //     problemDetails = new ValidationProblemDetails(exc.Errors);
-            //     problemDetails.Detail = ex.Message;
-            //     problemDetails.Extensions.Add("invalidParams", exc.Errors);
-            //     problemDetails.Title = "Validation Error";
-            //     break;
+            case NotFoundException:
+                response.StatusCode = (int)HttpStatusCode.NotFound;
+                problemDetails.Detail = ex.Message;
+                problemDetails.Title = "Not Found";
+                break;
+            case ValidationException exc:
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                problemDetails = new ValidationProblemDetails(exc.Errors);
+                problemDetails.Detail = ex.Message;
+                problemDetails.Extensions.Add("invalidParams", exc.Errors);
+                problemDetails.Title = "Validation Error";
+                break;
             case UnAuthorizedException:
                 response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 problemDetails.Detail = ex.Message;
