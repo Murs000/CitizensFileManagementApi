@@ -13,4 +13,10 @@ public static class PasswordHelper
         var passwordSalt = Convert.ToBase64String(salt);
         return (passwordHash, passwordSalt);
     }
+    public static bool VerifyPassword(string password, string storedHash, string storedSalt)
+    {
+        using var hmac = new HMACSHA256(Convert.FromBase64String(storedSalt));
+        var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+        return Convert.ToBase64String(computedHash) == storedHash;
+    }
 }

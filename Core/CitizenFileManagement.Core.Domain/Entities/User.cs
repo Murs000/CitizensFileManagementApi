@@ -9,12 +9,24 @@ public class User : IEntity, IAuditable<User>
 
     public string Username { get; set; }
     public string Email { get; set; }
+    public string? RefreshToken { get; set; }
+    public DateTime? RefreshTokenExpireDate { get; set; }
+    public string? OTP { get; set; }
     public string PasswordHash { get; set; }
     public string PasswordSalt { get; set; }
+    public bool IsActivated { get; set; }
     public UserRole Role { get; set; }
 
     public int CustomerId { get; set; }
     public Customer Customer { get; set; }
+
+    public User SetRefreshToken(string refreshToken, DateTime refreshTokenExpireDate)
+    {
+        RefreshToken = refreshToken;
+        RefreshTokenExpireDate = refreshTokenExpireDate;
+
+        return this;
+    } 
 
     public User SetPassword(string passwordHash, string paswordSalt)
     {

@@ -1,0 +1,16 @@
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/bin/Debug/net8.0/CitizenFileManagement.Core.Application.deps.json
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/bin/Debug/net8.0/CitizenFileManagement.Core.Application.dll
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/bin/Debug/net8.0/CitizenFileManagement.Core.Application.pdb
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/bin/Debug/net8.0/CitizenFileManagement.Core.Domain.dll
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/bin/Debug/net8.0/CitizenFileManagement.Core.Domain.pdb
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/obj/Debug/net8.0/CitizenFileManagement.Core.Application.csproj.AssemblyReference.cache
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/obj/Debug/net8.0/CitizenFileManagement.Core.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/obj/Debug/net8.0/CitizenFileManagement.Core.Application.AssemblyInfoInputs.cache
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/obj/Debug/net8.0/CitizenFileManagement.Core.Application.AssemblyInfo.cs
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/obj/Debug/net8.0/CitizenFileManagement.Core.Application.csproj.CoreCompileInputs.cache
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/obj/Debug/net8.0/CitizenFileManagement.Core.Application.sourcelink.json
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/obj/Debug/net8.0/CitizenF.01E65BE5.Up2Date
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/obj/Debug/net8.0/CitizenFileManagement.Core.Application.dll
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/obj/Debug/net8.0/refint/CitizenFileManagement.Core.Application.dll
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/obj/Debug/net8.0/CitizenFileManagement.Core.Application.pdb
+/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Application/obj/Debug/net8.0/ref/CitizenFileManagement.Core.Application.dll

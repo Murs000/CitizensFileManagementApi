@@ -112,6 +112,9 @@
             "projectReferences": {
               "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Domain/CitizenFileManagement.Core.Domain.csproj": {
                 "projectPath": "/Users/mursal/Projects/CitizensFileManagementApi/Core/CitizenFileManagement.Core.Domain/CitizenFileManagement.Core.Domain.csproj"
+              },
+              "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.External/CitizenFileManagement.Infrastructure.External.csproj": {
+                "projectPath": "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.External/CitizenFileManagement.Infrastructure.External.csproj"
               }
             }
           }
