@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
+namespace CitizenFileManagement.Infrastructure.Persistence.Concrete;
+
 public class UserManager : IUserManager
 {
     private readonly IClaimManager _claimManager;
@@ -25,14 +27,14 @@ public class UserManager : IUserManager
         claims.AddRange(_claimManager.GetUserClaims(user));
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
         var creadentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var expireAt = DateTime.UtcNow.AddMinutes(double.Parse(_jwtSettings.ExpireAt));
+        var expireAt = DateTime.UtcNow.AddHours(4).AddMinutes(_jwtSettings.ExpireAt);
         var token = new JwtSecurityToken
             (claims: claims,
             expires: expireAt,
             signingCredentials: creadentials
             );
         var tokenHandler = new JwtSecurityTokenHandler();
-        
+
         return (tokenHandler.WriteToken(token), expireAt);
     }
 

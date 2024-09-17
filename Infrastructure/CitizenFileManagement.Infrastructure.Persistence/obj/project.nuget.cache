@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "M0EQv76VAUM=",
+  "dgSpecHash": "Vm6i+FGK92U=",
   "success": true,
   "projectFilePath": "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.Persistence/CitizenFileManagement.Infrastructure.Persistence.csproj",
   "expectedPackageFiles": [
@@ -39,6 +39,7 @@
     "/Users/mursal/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
     "/Users/mursal/.nuget/packages/npgsql/8.0.3/npgsql.8.0.3.nupkg.sha512",
     "/Users/mursal/.nuget/packages/npgsql.entityframeworkcore.postgresql/8.0.4/npgsql.entityframeworkcore.postgresql.8.0.4.nupkg.sha512",
+    "/Users/mursal/.nuget/packages/scrutor/4.2.2/scrutor.4.2.2.nupkg.sha512",
     "/Users/mursal/.nuget/packages/system.codedom/4.4.0/system.codedom.4.4.0.nupkg.sha512",
     "/Users/mursal/.nuget/packages/system.collections.immutable/6.0.0/system.collections.immutable.6.0.0.nupkg.sha512",
     "/Users/mursal/.nuget/packages/system.composition/6.0.0/system.composition.6.0.0.nupkg.sha512",
