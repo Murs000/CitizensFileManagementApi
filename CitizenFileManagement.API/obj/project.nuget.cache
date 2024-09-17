@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "euuyJA3XOnk=",
+  "dgSpecHash": "Wg+gPEy4Dkw=",
   "success": true,
   "projectFilePath": "/Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/CitizenFileManagement.API.csproj",
   "expectedPackageFiles": [
@@ -24,7 +24,7 @@
     "/Users/mursal/.nuget/packages/microsoft.extensions.dependencymodel/6.0.0/microsoft.extensions.dependencymodel.6.0.0.nupkg.sha512",
     "/Users/mursal/.nuget/packages/microsoft.extensions.logging/8.0.0/microsoft.extensions.logging.8.0.0.nupkg.sha512",
     "/Users/mursal/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
-    "/Users/mursal/.nuget/packages/microsoft.extensions.options/8.0.0/microsoft.extensions.options.8.0.0.nupkg.sha512",
+    "/Users/mursal/.nuget/packages/microsoft.extensions.options/8.0.2/microsoft.extensions.options.8.0.2.nupkg.sha512",
     "/Users/mursal/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512",
     "/Users/mursal/.nuget/packages/microsoft.identitymodel.abstractions/8.0.2/microsoft.identitymodel.abstractions.8.0.2.nupkg.sha512",
     "/Users/mursal/.nuget/packages/microsoft.identitymodel.jsonwebtokens/8.0.2/microsoft.identitymodel.jsonwebtokens.8.0.2.nupkg.sha512",

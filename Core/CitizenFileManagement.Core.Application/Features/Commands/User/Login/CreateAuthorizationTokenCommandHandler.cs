@@ -29,8 +29,7 @@ public class CreateAuthorizationTokenCommandHandler : IRequestHandler<CreateAuth
             throw new UnAuthorizedException("Invalid credentials");
         }
 
-        var random = GenerateRandomNumber();
-        var refreshToken = $"{random}_{user.Id}_{DateTime.UtcNow.AddDays(20)}";
+        var refreshToken = RefreshTokenHelper.GenerateRefreshToken(user.Id);
         user.SetRefreshToken(refreshToken,DateTime.UtcNow.AddHours(4).AddDays(20));
         (string token, DateTime expireAt) = _userManager.GenerateTJwtToken(user);
         await _userRepository.SaveAsync();
@@ -41,15 +40,5 @@ public class CreateAuthorizationTokenCommandHandler : IRequestHandler<CreateAuth
             RefreshToken = refreshToken,
             Token = token
         };
-    }
-
-    private object GenerateRandomNumber()
-    {
-        var randomNumber = new byte[32];
-        using (var rng = RandomNumberGenerator.Create())
-        {
-            rng.GetBytes(randomNumber);
-            return Convert.ToBase64String(randomNumber);
-        }
     }
 }

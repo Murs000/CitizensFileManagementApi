@@ -1,6 +1,7 @@
 using System.Text;
 using CitizenFileManagement.API.Middlewares;
 using CitizenFileManagement.Core.Application;
+using CitizenFileManagement.Infrastructure.External.Settings;
 using CitizenFileManagement.Infrastructure.Persistence;
 using CitizenFileManagement.Infrastructure.Persistence.DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -73,6 +74,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(nameof(JwtSettings)));
 //builder.Services.Configure<FileSettings>(configuration.GetSection(nameof(FileSettings)));
 
 var app = builder.Build();

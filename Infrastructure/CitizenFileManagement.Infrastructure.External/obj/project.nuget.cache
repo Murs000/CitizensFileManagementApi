@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "l7z3aASbyOs=",
+  "dgSpecHash": "vcJN3UHyJIE=",
   "success": true,
   "projectFilePath": "/Users/mursal/Projects/CitizensFileManagementApi/Infrastructure/CitizenFileManagement.Infrastructure.External/CitizenFileManagement.Infrastructure.External.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/Users/mursal/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "/Users/mursal/.nuget/packages/microsoft.extensions.options/8.0.2/microsoft.extensions.options.8.0.2.nupkg.sha512",
+    "/Users/mursal/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

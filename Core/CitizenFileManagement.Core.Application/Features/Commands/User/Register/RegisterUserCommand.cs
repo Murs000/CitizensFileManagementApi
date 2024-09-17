@@ -1,0 +1,10 @@
+using MediatR;
+
+namespace CitizenFileManagement.Core.Application.Features.Commands.User.Register;
+
+public class RegisterUserCommand : IRequest<bool>
+{
+    public string Username { get; set; }
+    public string Email { get; set; }
+    public string Password { get; set; }
+}
