@@ -40,7 +40,7 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Crea
                     Path = filePath, 
                     Description = documentDTO.Description,
                     Type = documentDTO.Type,
-                    CustomerId = userId
+                    CustomerId = user.CustomerId
                 };
 
                 document.SetCreationCredentials(userId);

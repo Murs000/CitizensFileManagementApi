@@ -1,7 +1,10 @@
 using CitizenFileManagement.Core.Application.Interfaces;
 using CitizenFileManagement.Core.Domain.Entities;
+using CitizenFileManagement.Infrastructure.External.Extensions;
+using CitizenFileManagement.Infrastructure.External.Settings;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using System.IO;
 
 namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Update
@@ -10,53 +13,54 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Upda
     {
         private readonly IDocumentRepository _documentRepository;
         private readonly IUserManager _userManager;
-        private readonly string _storagePath = "/Users/mursal/Projects/CitizensFileManagementApi/Files"; // Directory to store files
+        private readonly IUserRepository _userRepository;
+        private readonly FileSettings _fileSettings;
 
-        public UpdateDocumentCommandHandler(IDocumentRepository documentRepository, IUserManager userManager)
+        public UpdateDocumentCommandHandler (IDocumentRepository documentRepository, IUserRepository userRepository, IUserManager userManager,IOptions<FileSettings> fileSettings)
         {
             _documentRepository = documentRepository;
             _userManager = userManager;
+            _fileSettings = fileSettings.Value;
+            _userRepository = userRepository;
         }
 
         public async Task<bool> Handle(UpdateDocumentCommand request, CancellationToken cancellationToken)
         {
             var userId = _userManager.GetCurrentUserId();
 
-            if (!Directory.Exists(_storagePath))
-            {
-                Directory.CreateDirectory(_storagePath);
-            }
+            var user = await _userRepository.GetAsync(u => u.Id == userId);
 
-            foreach (var file in request.AddedFiles)
+            foreach(var file in request.Files)
             {
-                var fileName = $"{Guid.NewGuid()}_{file.Name}";
-                var filePath = Path.Combine(_storagePath, fileName);
+                var document = await _documentRepository.GetAsync(d => d.Id == file.Id);
 
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                if(request.DeletedFiles.Contains(file.Id))
                 {
-                    await file.File.CopyToAsync(stream);
+                    File.Delete(document.Path);
+
+                    document.SetCredentials(user.Id);
+
+                    _documentRepository.SoftDelete(document);
                 }
-
-                var document = new Domain.Entities.Document
+                else
                 {
-                    Name = file.Name,
-                    Path = filePath,  
-                    Description = file.Description,
-                    Type = file.Type,
-                    CustomerId = userId
-                };
+                    document.Name = file.Name;
+                    document.Description = file.Description;
+                    document.Type = file.Type;
 
-                document.SetCreationCredentials(userId);
+                    if(file.File != null)
+                    {
+                        File.Delete(document.Path);
 
-                await _documentRepository.AddAsync(document);
-            }
-            foreach(var deletedId in request.DeletedId)
-            {
-                var file = await _documentRepository.GetAsync(d => d.Id == deletedId);
+                        var filePath = await file.File.SaveAsync(_fileSettings.Path, user.Username);
 
-                File.Delete(file.Path);
+                        document.Path = filePath;
+                    }
 
-                _documentRepository.SoftDelete(file);
+                    document.SetCredentials(user.Id);
+
+                    _documentRepository.Update(document);
+                }
             }
 
             await _documentRepository.SaveAsync();

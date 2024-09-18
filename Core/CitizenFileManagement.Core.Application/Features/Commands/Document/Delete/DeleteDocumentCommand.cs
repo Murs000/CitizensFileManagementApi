@@ -3,10 +3,10 @@ using CitizenFileManagement.Core.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 
-namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Create;
+namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Delete;
 
-public class CreateDocumentCommand : IRequest<bool>
+public class DeleteDocumentCommand : IRequest<bool>
 {
-    public List<DocumentDTO> Files { get; set; }
+    public List<int> DeletedFiles { get; set; }
 }
  
