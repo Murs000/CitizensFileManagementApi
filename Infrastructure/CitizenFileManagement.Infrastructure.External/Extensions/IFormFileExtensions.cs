@@ -1,25 +1,31 @@
 using Microsoft.AspNetCore.Http;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
-namespace CitizenFileManagement.Infrastructure.External.Extensions;
-
-public static class IFormFileExtensions
+namespace CitizenFileManagement.Infrastructure.External.Extensions
 {
-    public static async Task<(string path, string fileName)> SaveAsync(this IFormFile file, string path)
+    public static class IFormFileExtensions
     {
-        if (!Directory.Exists(path))
-        { Directory.CreateDirectory(path); }
-        string fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-        string resultPath = Path.Combine(path, fileName);
-        using (var fileStream = new FileStream(resultPath, FileMode.Create))
+        public static async Task<string> SaveAsync(this IFormFile file, string basePath, string username)
         {
-            await file.CopyToAsync(fileStream);
+            string userFolderPath = Path.Combine(basePath, username);
+
+            if (!Directory.Exists(userFolderPath))
+            {
+                Directory.CreateDirectory(userFolderPath);
+            }
+
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+
+            string fullPath = Path.Combine(userFolderPath, uniqueFileName);
+
+            using (var fileStream = new FileStream(fullPath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+
+            return fullPath;
         }
-        return ($"{path}/{fileName}", fileName);
     }
-    // public static bool IsImage(this IFormFile file)
-    // {
-    //     string[] allowedExtensions = { ".png", ".jpg", ".jpeg" };
-    //     string fileExtension = Path.GetExtension(file.FileName).ToLower();
-    //     return allowedExtensions.Contains(fileExtension);
-    // }
 }

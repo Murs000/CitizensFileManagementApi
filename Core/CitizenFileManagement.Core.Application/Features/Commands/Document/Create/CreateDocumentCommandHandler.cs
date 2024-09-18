@@ -28,18 +28,16 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Crea
         {
             var userId = _userManager.GetCurrentUserId();
 
-            var user = _userRepository.GetAsync(u => u.Id == userId);
+            var user = await _userRepository.GetAsync(u => u.Id == userId);
 
-            // Handle multiple file uploads
             foreach (var documentDTO in request.Files)
             {
-                (string fileName, string filePath) = await documentDTO.File.SaveAsync(_fileSettings.Path);
+                string filePath = await documentDTO.File.SaveAsync(_fileSettings.Path , user.Username);
 
-                // Create document with file details
                 var document = new Domain.Entities.Document
                 {
-                    Name = fileName,
-                    Path = filePath,  // Store relative file path
+                    Name = documentDTO.Name,
+                    Path = filePath, 
                     Description = documentDTO.Description,
                     Type = documentDTO.Type,
                     CustomerId = userId
@@ -47,7 +45,7 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Crea
 
                 document.SetCreationCredentials(userId);
 
-                _documentRepository.AddAsync(document);
+                await _documentRepository.AddAsync(document);
             }
 
             await _documentRepository.SaveAsync();
