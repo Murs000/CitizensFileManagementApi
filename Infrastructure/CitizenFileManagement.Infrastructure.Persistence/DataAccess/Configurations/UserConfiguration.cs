@@ -16,15 +16,14 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(150);
 
         builder.HasIndex(u => u.Username)
-            .IsUnique(); // Enforce uniqueness on Username
+            .IsUnique(); 
 
-        // Email - required, max length 255, and unique
         builder.Property(u => u.Email)
             .IsRequired()
             .HasMaxLength(255);
 
         builder.HasIndex(u => u.Email)
-            .IsUnique(); // Enforce uniqueness on Email
+            .IsUnique();
 
         builder.Property(u => u.PasswordHash)
             .IsRequired();

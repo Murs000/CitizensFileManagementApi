@@ -76,7 +76,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(nameof(JwtSettings)));
-//builder.Services.Configure<FileSettings>(configuration.GetSection(nameof(FileSettings)));
+builder.Services.Configure<FileSettings>(builder.Configuration.GetSection(nameof(FileSettings)));
 
 var app = builder.Build();
 

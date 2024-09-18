@@ -1,0 +1,11 @@
+using CitizenFileManagement.Core.Application.Features.Commands.Document.ViewModels;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+
+namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Update;
+
+public class UpdateDocumentCommand : IRequest<bool>
+{
+    public List<int> DeletedId { get; set; }
+    public List<DocumentDTO> AddedFiles { get; set; }
+}

@@ -24,6 +24,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, b
             Email = request.Email,
             IsActivated = false,
         };
+        
         var customer = new Customer
         {
             Name = request.Name,
