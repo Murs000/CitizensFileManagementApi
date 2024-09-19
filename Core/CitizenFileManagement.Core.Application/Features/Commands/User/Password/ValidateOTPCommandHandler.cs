@@ -15,7 +15,7 @@ public class ValidateOTPCommandHandler : IRequestHandler<ValidateOTPCommand, boo
 
     public async Task<bool> Handle(ValidateOTPCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetAsync(x => x.OTP == request.OTP && x.OTPExpireDate < DateTime.UtcNow.AddHours(4));
+        var user = await _userRepository.GetAsync(x => x.OTP == request.OTP && x.OTPExpireDate > DateTime.UtcNow.AddHours(4));
 
         if (user == null)
         {

@@ -2,48 +2,55 @@ using CitizenFileManagement.Core.Application.Interfaces;
 using CitizenFileManagement.Core.Domain.Entities;
 using CitizenFileManagement.Infrastructure.External.Helpers;
 using MediatR;
+using System.Threading.Tasks;
+using System.Threading;
 
-namespace CitizenFileManagement.Core.Application.Features.Commands.User.Register;
-
-public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, bool>
+namespace CitizenFileManagement.Core.Application.Features.Commands.User.Register
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IEmailService _emailService;
-
-    public RegisterUserCommandHandler(IUserRepository userRepository, IEmailService emailService)
+    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, bool>
     {
-        _userRepository = userRepository;
-        _emailService = emailService;
-    }
+        private readonly IUserRepository _userRepository;
+        private readonly IEmailService _emailService;
 
-    public async Task<bool> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
-    {
-        var user = new Domain.Entities.User
+        public RegisterUserCommandHandler(IUserRepository userRepository, IEmailService emailService)
         {
-            Username = request.Username,
-            Email = request.Email,
-            IsActivated = false,
-        };
-        
-        var customer = new Customer
+            _userRepository = userRepository;
+            _emailService = emailService;
+        }
+
+        public async Task<bool> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            Name = request.Name,
-            Surname = request.Surname
-        };
-        user.Customer = customer;
+            var user = new Domain.Entities.User
+            {
+                Username = request.Username,
+                Email = request.Email,
+                IsActivated = false,
+            };
 
-        (string hash, string salt) = PasswordHelper.HashPassword(request.Password);
-        user.SetPassword(hash, salt);
+            var customer = new Customer
+            {
+                Name = request.Name,
+                Surname = request.Surname
+            };
+            user.Customer = customer;
 
-        var otp = OTPHelper.GenerateOTP();
-        user.OTP = otp;
-        user.OTPExpireDate = DateTime.UtcNow.AddHours(4).AddMinutes(10);
+            // Hash password
+            (string hash, string salt) = PasswordHelper.HashPassword(request.Password);
+            user.SetPassword(hash, salt);
 
-        await _userRepository.AddAsync(user);
-        await _userRepository.SaveAsync();
+            // Generate OTP
+            var otp = OTPHelper.GenerateOTP();
+            user.OTP = otp;
+            user.OTPExpireDate = DateTime.UtcNow.AddHours(4).AddMinutes(10);
 
-        await _emailService.SendEmailAsync(user.Email, "OTP message", otp);
+            // Save user and customer data
+            await _userRepository.AddAsync(user);
+            await _userRepository.SaveAsync();
 
-        return true;
+            // Send OTP email
+            await _emailService.SendEmailAsync(user.Email, "OTP message", otp);
+
+            return true;
+        }
     }
 }

@@ -5,10 +5,11 @@ using CitizenFileManagement.Core.Application.Features.Commands.User.ConfirmEmail
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using CitizenFileManagement.Core.Application.Features.Commands.User.Password;
+using CitizenFileManagement.Core.Application.Features.Queries.User.GetInfo;
 
 namespace CitizenFileManagement.API.Controllers
 {
-    [Route("api/user")]
+    [Route("api/[Controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -17,6 +18,12 @@ namespace CitizenFileManagement.API.Controllers
         public UserController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpPost("get-info")]
+        public async Task<IActionResult> Login(GetUserQuery command)
+        {
+            return Ok(await _mediator.Send(command));
         }
 
         [HttpPost("login")]

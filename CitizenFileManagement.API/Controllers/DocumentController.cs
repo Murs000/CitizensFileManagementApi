@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CitizenFileManagement.API.Controllers
 {
-    [Route("api/user")]
+    [Route("api/[Controller]")]
     [ApiController]
     public class DocumentController : ControllerBase
     {
