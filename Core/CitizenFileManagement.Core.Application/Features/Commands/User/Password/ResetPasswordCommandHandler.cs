@@ -5,7 +5,7 @@ using MediatR;
 
 namespace CitizenFileManagement.Core.Application.Features.Commands.User.Password;
 
-public class ResetPasswordCommandHandler : IRequestHandler<ResetPasswordCommand,bool>
+public class ResetPasswordCommandHandler : IRequestHandler<ResetPasswordCommand, bool>
 {
     private readonly IUserRepository _userRepository;
 
@@ -16,16 +16,16 @@ public class ResetPasswordCommandHandler : IRequestHandler<ResetPasswordCommand,
 
     public async Task<bool> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetAsync(x => x.Email == request.Email && x.OTP == request.OTP);
+        var user = await _userRepository.GetAsync(x => x.Email == request.Email);
 
         if (user == null)
         {
-            throw new NotFoundException("Invalid OTP or email.");
+            throw new NotFoundException("Email not found.");
         }
 
         var (hash, salt) = PasswordHelper.HashPassword(request.NewPassword);
         user.SetPassword(hash, salt);
-        user.OTP = null; // clear OTP after reset
+        user.OTP = null; // Clear OTP after reset
         await _userRepository.SaveAsync();
 
         return true;

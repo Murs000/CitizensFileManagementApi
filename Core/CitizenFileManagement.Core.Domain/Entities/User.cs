@@ -12,6 +12,7 @@ public class User : IEntity, IAuditable<User>
     public string? RefreshToken { get; set; }
     public DateTime? RefreshTokenExpireDate { get; set; }
     public string? OTP { get; set; }
+    public DateTime? OTPExpireDate { get; set; }
     public string PasswordHash { get; set; }
     public string PasswordSalt { get; set; }
     public bool IsActivated { get; set; }

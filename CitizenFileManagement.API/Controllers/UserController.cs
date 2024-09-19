@@ -60,5 +60,10 @@ namespace CitizenFileManagement.API.Controllers
         {
             return Ok(await _mediator.Send(command));
         }
+        [HttpPost("confirm-otp")]
+        public async Task<IActionResult> ConfirmOTP(ValidateOTPCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
     }
 }

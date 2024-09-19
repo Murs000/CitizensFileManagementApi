@@ -27,6 +27,7 @@ public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordComman
 
         var otp = OTPHelper.GenerateOTP();
         user.OTP = otp;
+        user.OTPExpireDate = DateTime.UtcNow.AddHours(4).AddMinutes(4);
         await _userRepository.SaveAsync();
 
         // Send reset password email

@@ -27,6 +27,7 @@ public class ResendConfirmEmailCommandHandler : IRequestHandler<ResendConfirmEma
 
         var newOtp = OTPHelper.GenerateOTP();
         user.OTP = newOtp;
+        user.OTPExpireDate = DateTime.UtcNow.AddHours(4).AddMinutes(10);
         await _userRepository.SaveAsync();
 
         // Send confirmation email

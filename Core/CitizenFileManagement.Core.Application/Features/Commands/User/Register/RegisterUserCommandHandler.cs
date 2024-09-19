@@ -37,6 +37,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, b
 
         var otp = OTPHelper.GenerateOTP();
         user.OTP = otp;
+        user.OTPExpireDate = DateTime.UtcNow.AddHours(4).AddMinutes(10);
 
         await _userRepository.AddAsync(user);
         await _userRepository.SaveAsync();

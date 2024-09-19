@@ -32,6 +32,10 @@ public class DocumentConfiguration : IEntityTypeConfiguration<Document>
             .WithMany()
             .HasForeignKey(d => d.ModifierId);
 
+        builder.HasOne(c => c.Customer)
+            .WithMany()
+            .HasForeignKey(c => c.CustomerId);
+
         builder.Property(d => d.CreateDate).IsRequired(false);
         builder.Property(d => d.ModifyDate).IsRequired(false);
         builder.Property(d => d.IsDeleted).HasDefaultValue(false);
