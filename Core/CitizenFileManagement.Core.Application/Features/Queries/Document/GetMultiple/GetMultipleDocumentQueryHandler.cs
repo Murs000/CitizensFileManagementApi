@@ -23,11 +23,11 @@ public class GetMultipleDocumentQueryHandler : IRequestHandler<GetMultipleDocume
     public async Task<ReturnDocumentViewModel> Handle(GetMultipleDocumentQuery request, CancellationToken cancellationToken)
     {
         var userId = _userManager.GetCurrentUserId();
-        var documents = await _documentRepository.GetAllAsync(u => u.CreatorId == userId &&  request.DocumentIds.Contains(u.Id));
+        var documents = await _documentRepository.GetAllAsync(u => u.CreatorId == userId && request.DocumentIds.Contains(u.Id));
 
-        if (documents == null)
+        if (documents == null || !documents.Any())
         {
-            throw new NotFoundException("Document not found.");
+            throw new NotFoundException("Documents not found.");
         }
 
         using var memoryStream = new MemoryStream();
@@ -35,9 +35,20 @@ public class GetMultipleDocumentQueryHandler : IRequestHandler<GetMultipleDocume
         {
             foreach (var document in documents)
             {
-                var zipEntry = zipArchive.CreateEntry(document.Name, CompressionLevel.Fastest);
+                var filePath = document.Path; // Full path of the document
+                var fileName = document.Name; // File name from your database, including the extension
+                var fileExtencion = Path.GetExtension(filePath);
+
+                if (!File.Exists(filePath))
+                {
+                    throw new NotFoundException($"File {fileName} not found on the server.");
+                }
+
+                // Add the document to the zip with its original name and extension
+                var zipEntry = zipArchive.CreateEntry(fileName + fileExtencion, CompressionLevel.Fastest);
                 using var entryStream = zipEntry.Open();
-                var fileContent = await File.ReadAllBytesAsync(document.Path, cancellationToken);
+
+                var fileContent = await File.ReadAllBytesAsync(filePath, cancellationToken);
                 await entryStream.WriteAsync(fileContent, 0, fileContent.Length, cancellationToken);
             }
         }
@@ -46,9 +57,9 @@ public class GetMultipleDocumentQueryHandler : IRequestHandler<GetMultipleDocume
 
         return new ReturnDocumentViewModel
         {
-            Name = "Files.zip",
-            Type = "application/zip",
-            Bytes = fileBytes
+            Name = "Files.zip", // Name of the zip file
+            Type = "application/zip", // Content type for zip files
+            Bytes = fileBytes // The byte array representing the zip file
         };
     }
 }
