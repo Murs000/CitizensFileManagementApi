@@ -1,13 +1,17 @@
 
 using CitizenFileManagement.Core.Application.Features.Commands.Document.Create;
+using CitizenFileManagement.Core.Application.Features.Commands.Document.Delete;
 using CitizenFileManagement.Core.Application.Features.Commands.Document.Update;
+using CitizenFileManagement.Core.Application.Features.Queries.Document;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CitizenFileManagement.API.Controllers
 {
     [Route("api/[Controller]")]
     [ApiController]
+    [Authorize]
     public class DocumentController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -15,6 +19,12 @@ namespace CitizenFileManagement.API.Controllers
         public DocumentController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpPost("get-all")]
+        public async Task<IActionResult> GetAll(GetAllDocumentQuery command)
+        {
+            return Ok(await _mediator.Send(command));
         }
 
         [HttpPost("create")]
@@ -30,7 +40,7 @@ namespace CitizenFileManagement.API.Controllers
         }
 
         [HttpDelete("delete")]
-        public async Task<IActionResult> Delete(UpdateDocumentCommand command)
+        public async Task<IActionResult> Delete(DeleteDocumentCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
