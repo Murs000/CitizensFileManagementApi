@@ -3,6 +3,7 @@ using CitizenFileManagement.Core.Application.Features.Commands.Document.Delete;
 using CitizenFileManagement.Core.Application.Features.Commands.Document.Update;
 using CitizenFileManagement.Core.Application.Features.Queries.Document.Get;
 using CitizenFileManagement.Core.Application.Features.Queries.Document.GetAll;
+using CitizenFileManagement.Core.Application.Features.Queries.Document.GetMultiple;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,10 +28,20 @@ namespace CitizenFileManagement.API.Controllers
             return Ok(await _mediator.Send(command));
         }
 
-        [HttpGet("get/{documentId}")]
-        public async Task<IActionResult> GetDocument(int documentId)
+        [HttpGet("get-by-id")]
+        public async Task<IActionResult> GetDocument([FromQuery]int documentId)
         {
             var query = new GetDocumentQuery { DocumentId = documentId };
+            var returnDocumentViewModel = await _mediator.Send(query);
+
+            return File(returnDocumentViewModel.Bytes, returnDocumentViewModel.Type, returnDocumentViewModel.Name);
+        }
+
+        [HttpGet("get-multiple")]
+        public async Task<IActionResult> GetMultipleDocument([FromQuery] List<int> documentIds)
+        {
+            var query = new GetMultipleDocumentQuery { DocumentIds = documentIds };
+
             var returnDocumentViewModel = await _mediator.Send(query);
 
             return File(returnDocumentViewModel.Bytes, returnDocumentViewModel.Type, returnDocumentViewModel.Name);
