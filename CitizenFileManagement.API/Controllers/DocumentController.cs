@@ -21,16 +21,19 @@ namespace CitizenFileManagement.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("get-all")]
+        [HttpPost("get-all")]
         public async Task<IActionResult> GetAll(GetAllDocumentQuery command)
         {
             return Ok(await _mediator.Send(command));
         }
 
-        [HttpGet("get")]
-        public async Task<IActionResult> Get(GetDocumentQuery command)
+        [HttpGet("get/{documentId}")]
+        public async Task<IActionResult> GetDocument(int documentId)
         {
-            return Ok(await _mediator.Send(command));
+            var query = new GetDocumentQuery { DocumentId = documentId };
+            var returnDocumentViewModel = await _mediator.Send(query);
+
+            return File(returnDocumentViewModel.Bytes, returnDocumentViewModel.Type, returnDocumentViewModel.Name);
         }
 
         [HttpPost("create")]

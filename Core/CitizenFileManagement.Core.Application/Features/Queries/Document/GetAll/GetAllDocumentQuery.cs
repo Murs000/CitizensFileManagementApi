@@ -1,3 +1,4 @@
+using CitizenFileManagement.Core.Application.Features.Queries.Document.ViewModels;
 using CitizenFileManagement.Core.Application.Features.Queries.User.ViewModels;
 using MediatR;
 

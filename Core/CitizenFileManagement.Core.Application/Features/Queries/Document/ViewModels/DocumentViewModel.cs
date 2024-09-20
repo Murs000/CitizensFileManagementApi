@@ -1,6 +1,6 @@
 using CitizenFileManagement.Core.Domain.Enums;
 
-namespace CitizenFileManagement.Core.Application.Features.Queries.User.ViewModels;
+namespace CitizenFileManagement.Core.Application.Features.Queries.Document.ViewModels;
 
 public class DocumentViewModel
 {

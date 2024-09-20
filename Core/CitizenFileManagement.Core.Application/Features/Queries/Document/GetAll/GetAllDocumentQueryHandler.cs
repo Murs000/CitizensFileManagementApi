@@ -4,6 +4,7 @@ using CitizenFileManagement.Core.Application.Exceptions;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using CitizenFileManagement.Core.Application.Features.Queries.User.ViewModels;
+using CitizenFileManagement.Core.Application.Features.Queries.Document.ViewModels;
 
 namespace CitizenFileManagement.Core.Application.Features.Queries.Document.GetAll;
 
