@@ -5,7 +5,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using CitizenFileManagement.Core.Application.Features.Queries.User.ViewModels;
 
-namespace CitizenFileManagement.Core.Application.Features.Queries.Document;
+namespace CitizenFileManagement.Core.Application.Features.Queries.Document.GetAll;
 
 public class GetAllDocumentQueryHandler : IRequestHandler<GetAllDocumentQuery, List<DocumentViewModel>>
 {

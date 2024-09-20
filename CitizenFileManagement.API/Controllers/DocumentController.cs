@@ -1,8 +1,7 @@
-
 using CitizenFileManagement.Core.Application.Features.Commands.Document.Create;
 using CitizenFileManagement.Core.Application.Features.Commands.Document.Delete;
 using CitizenFileManagement.Core.Application.Features.Commands.Document.Update;
-using CitizenFileManagement.Core.Application.Features.Queries.Document;
+using CitizenFileManagement.Core.Application.Features.Queries.Document.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
