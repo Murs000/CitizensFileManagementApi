@@ -1,6 +1,7 @@
 using CitizenFileManagement.Core.Application.Features.Commands.Document.Create;
 using CitizenFileManagement.Core.Application.Features.Commands.Document.Delete;
 using CitizenFileManagement.Core.Application.Features.Commands.Document.Update;
+using CitizenFileManagement.Core.Application.Features.Queries.Document.Get;
 using CitizenFileManagement.Core.Application.Features.Queries.Document.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -20,8 +21,14 @@ namespace CitizenFileManagement.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("get-all")]
+        [HttpGet("get-all")]
         public async Task<IActionResult> GetAll(GetAllDocumentQuery command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [HttpGet("get")]
+        public async Task<IActionResult> Get(GetDocumentQuery command)
         {
             return Ok(await _mediator.Send(command));
         }
