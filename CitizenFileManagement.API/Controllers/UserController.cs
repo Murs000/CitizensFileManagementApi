@@ -20,10 +20,10 @@ namespace CitizenFileManagement.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("get-info")]
-        public async Task<IActionResult> Login(GetUserQuery command)
+        [HttpGet("get-info")]
+        public async Task<IActionResult> Login()
         {
-            return Ok(await _mediator.Send(command));
+            return Ok(await _mediator.Send(new GetUserQuery()));
         }
 
         [HttpPost("login")]
