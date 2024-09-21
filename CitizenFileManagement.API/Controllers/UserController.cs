@@ -6,6 +6,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using CitizenFileManagement.Core.Application.Features.Commands.User.Password;
 using CitizenFileManagement.Core.Application.Features.Queries.User.GetInfo;
+using CitizenFileManagement.Core.Application.Features.Commands.User.Update;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CitizenFileManagement.API.Controllers
 {
@@ -21,9 +23,17 @@ namespace CitizenFileManagement.API.Controllers
         }
 
         [HttpGet("get-info")]
+        [Authorize]
         public async Task<IActionResult> Login()
         {
             return Ok(await _mediator.Send(new GetUserQuery()));
+        }
+        
+        [HttpPut("update-data")]
+        [Authorize]
+        public async Task<IActionResult> Update(UpdateUserCommand command)
+        {
+            return Ok(await _mediator.Send(command));
         }
 
         [HttpPost("login")]
