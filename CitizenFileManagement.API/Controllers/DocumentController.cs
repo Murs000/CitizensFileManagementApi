@@ -4,6 +4,7 @@ using CitizenFileManagement.Core.Application.Features.Commands.Document.Update;
 using CitizenFileManagement.Core.Application.Features.Queries.Document.Get;
 using CitizenFileManagement.Core.Application.Features.Queries.Document.GetAll;
 using CitizenFileManagement.Core.Application.Features.Queries.Document.GetMultiple;
+using CitizenFileManagement.Core.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +42,16 @@ namespace CitizenFileManagement.API.Controllers
         public async Task<IActionResult> GetMultipleDocument([FromQuery] List<int> documentIds)
         {
             var query = new GetMultipleDocumentQuery { DocumentIds = documentIds };
+
+            var returnDocumentViewModel = await _mediator.Send(query);
+
+            return File(returnDocumentViewModel.Bytes, returnDocumentViewModel.Type, returnDocumentViewModel.Name);
+        }
+
+        [HttpGet("get-by-type")]
+        public async Task<IActionResult> GetMultipleDocument([FromQuery] DocumentType type)
+        {
+            var query = new GetByTypeDocumentQuery { Type = type };
 
             var returnDocumentViewModel = await _mediator.Send(query);
 

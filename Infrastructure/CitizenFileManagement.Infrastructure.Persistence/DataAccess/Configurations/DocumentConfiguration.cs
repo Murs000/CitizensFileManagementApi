@@ -22,7 +22,8 @@ public class DocumentConfiguration : IEntityTypeConfiguration<Document>
             .HasMaxLength(1000);
 
         builder.Property(d => d.Type)
-            .IsRequired();
+            .IsRequired()
+            .HasConversion<string>();
 
         builder.HasOne(d => d.Creator)
             .WithMany()
@@ -39,5 +40,7 @@ public class DocumentConfiguration : IEntityTypeConfiguration<Document>
         builder.Property(d => d.CreateDate).IsRequired(false);
         builder.Property(d => d.ModifyDate).IsRequired(false);
         builder.Property(d => d.IsDeleted).HasDefaultValue(false);
+
+        builder.HasQueryFilter(d => d.IsDeleted == false);
     }
 }

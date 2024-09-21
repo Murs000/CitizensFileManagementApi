@@ -51,5 +51,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.CreateDate).IsRequired(false);
         builder.Property(u => u.ModifyDate).IsRequired(false);
         builder.Property(u => u.IsDeleted).HasDefaultValue(false);
+
+        builder.HasQueryFilter(d => d.IsDeleted == false);
     }
 }

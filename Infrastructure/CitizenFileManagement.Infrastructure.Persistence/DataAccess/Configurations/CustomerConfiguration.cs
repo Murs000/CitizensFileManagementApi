@@ -39,5 +39,7 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.Property(c => c.CreateDate).IsRequired(false);
         builder.Property(c => c.ModifyDate).IsRequired(false);
         builder.Property(c => c.IsDeleted).HasDefaultValue(false);
+
+        builder.HasQueryFilter(d => d.IsDeleted == false);
     }
 }
