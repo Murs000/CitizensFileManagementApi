@@ -36,7 +36,7 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Crea
                 Name = request.Name,
                 Description = request.Description,
                 CustomerId = user.CustomerId,
-                Paths = []
+                Files = []
             };
 
 
@@ -44,7 +44,13 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Crea
             {
                 string filePath = await file.SaveAsync(_fileSettings.Path, user.Username);
 
-                filePack.Paths.Add(filePath);
+                var userFile = new UserFile
+                {
+                    Name = file.FileName,
+                    Path = filePath
+                };
+
+                filePack.Files.Add(userFile);
             }
 
             filePack.SetCreationCredentials(userId);

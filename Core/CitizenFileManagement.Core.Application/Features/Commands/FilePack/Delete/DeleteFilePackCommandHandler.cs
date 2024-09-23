@@ -26,32 +26,32 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Dele
 
         public async Task<bool> Handle(DeleteFilePackCommand request, CancellationToken cancellationToken)
         {
-            var userId = _userManager.GetCurrentUserId();
+            // var userId = _userManager.GetCurrentUserId();
 
-            var user = await _userRepository.GetAsync(u => u.Id == userId);
-
-
-            var filePack = new Domain.Entities.FilePack
-            {
-                Name = request.Name,
-                Description = request.Description,
-                CustomerId = user.CustomerId,
-                Paths = []
-            };
+            // var user = await _userRepository.GetAsync(u => u.Id == userId);
 
 
-            foreach (var file in request.Files)
-            {
-                string filePath = await file.SaveAsync(_fileSettings.Path, user.Username);
+            // var filePack = new Domain.Entities.FilePack
+            // {
+            //     Name = request.Name,
+            //     Description = request.Description,
+            //     CustomerId = user.CustomerId,
+            //     Paths = []
+            // };
 
-                filePack.Paths.Add(filePath);
-            }
 
-            filePack.SetCreationCredentials(userId);
+            // foreach (var file in request.Files)
+            // {
+            //     string filePath = await file.SaveAsync(_fileSettings.Path, user.Username);
 
-            await _filePackRepository.AddAsync(filePack);
+            //     filePack.Paths.Add(filePath);
+            // }
 
-            await _filePackRepository.SaveAsync();
+            // filePack.SetCreationCredentials(userId);
+
+            // await _filePackRepository.AddAsync(filePack);
+
+            // await _filePackRepository.SaveAsync();
 
             return true;
         }
