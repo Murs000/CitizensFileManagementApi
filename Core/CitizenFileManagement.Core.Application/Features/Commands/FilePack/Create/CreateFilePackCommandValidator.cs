@@ -1,6 +1,8 @@
 using FluentValidation;
 using CitizenFileManagement.Core.Application.Features.Commands.FilePack.Create;
 
+namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Create;
+
 public class CreateFilePackCommandValidator : AbstractValidator<CreateFilePackCommand>
 {
     public CreateFilePackCommandValidator()

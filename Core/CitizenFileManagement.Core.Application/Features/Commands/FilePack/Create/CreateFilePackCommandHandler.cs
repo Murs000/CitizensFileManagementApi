@@ -35,7 +35,8 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Crea
             {
                 Name = request.Name,
                 Description = request.Description,
-                CustomerId = user.CustomerId
+                CustomerId = user.CustomerId,
+                Paths = []
             };
 
 

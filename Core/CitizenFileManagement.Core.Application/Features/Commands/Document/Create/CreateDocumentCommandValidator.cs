@@ -1,6 +1,8 @@
 using FluentValidation;
 using CitizenFileManagement.Core.Application.Features.Commands.Document.Create;
 
+namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Create;
+
 public class CreateDocumentCommandValidator : AbstractValidator<CreateDocumentCommand>
 {
     public CreateDocumentCommandValidator()
