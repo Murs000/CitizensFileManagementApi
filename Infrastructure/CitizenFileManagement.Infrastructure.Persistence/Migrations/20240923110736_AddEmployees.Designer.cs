@@ -3,6 +3,7 @@ using System;
 using CitizenFileManagement.Infrastructure.Persistence.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CitizenFileManagement.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(CitizenFileDB))]
-    partial class CitizenFileDBModelSnapshot : ModelSnapshot
+    [Migration("20240923110736_AddEmployees")]
+    partial class AddEmployees
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

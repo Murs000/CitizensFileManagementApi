@@ -18,6 +18,7 @@ public class CitizenFileDB : DbContext
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new CustomerConfiguration());
         modelBuilder.ApplyConfiguration(new DocumentConfiguration());
+        modelBuilder.ApplyConfiguration(new FilePackConfiguration());
         
         base.OnModelCreating(modelBuilder);
     }

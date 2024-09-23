@@ -1,23 +1,23 @@
 using CitizenFileManagement.Core.Domain.Common;
+using CitizenFileManagement.Core.Domain.Enums;
 
 namespace CitizenFileManagement.Core.Domain.Entities;
 
-public class Customer : IEntity, IAuditable<Customer>
+public class FilePack : IEntity, IAuditable<FilePack>
 {
     public int Id { get; set; }
 
     public string Name { get; set; }
-    public string Surname { get; set; }
-    public List<Document>? Documents { get; set; }
-    public List<FilePack>? FilePacks { get; set; }
+    public string? Description { get; set; }
+    public List<string> Paths { get; set; }
 
-    public int UserId { get; set; }
-    public User User { get; set; }
+    public int CustomerId { get; set; }
+    public Customer Customer { get; set; }
 
-    public Customer SetDetails(string name, string surname)
+    public FilePack SetDetails(string name, string description)
     {
         Name = name;
-        Surname = surname;
+        Description = description;
 
         return this;
     }
@@ -30,7 +30,7 @@ public class Customer : IEntity, IAuditable<Customer>
     public DateTime? ModifyDate { get; set; }
     public bool IsDeleted { get; set; }
 
-    public Customer SetCreationCredentials(int userId)
+    public FilePack SetCreationCredentials(int userId)
     {
         CreatorId = userId;
         CreateDate = DateTime.UtcNow.AddHours(4);
@@ -38,7 +38,7 @@ public class Customer : IEntity, IAuditable<Customer>
         return this;
     }
 
-    public Customer SetCredentials(int userId)
+    public FilePack SetCredentials(int userId)
     {
         if(CreateDate == null)
         {
@@ -48,11 +48,10 @@ public class Customer : IEntity, IAuditable<Customer>
         {
             SetModifyCredentials(userId);
         }
-
         return this;
     }
 
-    public Customer SetModifyCredentials(int userId)
+    public FilePack SetModifyCredentials(int userId)
     {
         ModifierId = userId;
         ModifyDate = DateTime.UtcNow.AddHours(4);

@@ -27,6 +27,10 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .WithOne()
             .HasForeignKey(d => d.CustomerId); // Assuming Document has a foreign key to Customer
 
+        builder.HasMany(c => c.FilePacks)
+            .WithOne()
+            .HasForeignKey(d => d.CustomerId);
+
         builder.HasOne(c => c.Creator)
             .WithMany()
             .HasForeignKey(c => c.CreatorId);
