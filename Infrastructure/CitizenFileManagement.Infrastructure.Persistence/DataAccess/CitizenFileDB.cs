@@ -13,6 +13,7 @@ public class CitizenFileDB : DbContext
     public DbSet<Document> Documents { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<FilePack> FilePacks { get; set; }
+    public DbSet<UserFile> UserFiles { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -20,6 +21,7 @@ public class CitizenFileDB : DbContext
         modelBuilder.ApplyConfiguration(new CustomerConfiguration());
         modelBuilder.ApplyConfiguration(new DocumentConfiguration());
         modelBuilder.ApplyConfiguration(new FilePackConfiguration());
+        modelBuilder.ApplyConfiguration(new UserFileConfiguration());
         
         base.OnModelCreating(modelBuilder);
     }

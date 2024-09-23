@@ -4,9 +4,9 @@ using CitizenFileManagement.Core.Domain.Entities;
 
 namespace CitizenFileManagement.Infrastructure.Persistence.DataAccess.Configurations;
 
-public class FilePackConfiguration : IEntityTypeConfiguration<FilePack>
+public class UserFileConfiguration : IEntityTypeConfiguration<UserFile>
 {
-    public void Configure(EntityTypeBuilder<FilePack> builder)
+    public void Configure(EntityTypeBuilder<UserFile> builder)
     {
         builder.HasKey(fp => fp.Id);
 
@@ -14,16 +14,9 @@ public class FilePackConfiguration : IEntityTypeConfiguration<FilePack>
             .IsRequired()
             .HasMaxLength(255);
 
-        builder.Property(fp => fp.Description)
-            .HasMaxLength(500);
-
-        builder.HasMany(fp => fp.Files)
-            .WithOne()
-            .HasForeignKey(uf => uf.FilePackId);
-
-        builder.HasOne(fp => fp.Customer)
-            .WithMany(c => c.FilePacks)
-            .HasForeignKey(fp => fp.CustomerId)
+        builder.HasOne(uf => uf.FilePack)
+            .WithMany(fp => fp.Files)
+            .HasForeignKey(fp => fp.FilePackId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(fp => fp.Creator)

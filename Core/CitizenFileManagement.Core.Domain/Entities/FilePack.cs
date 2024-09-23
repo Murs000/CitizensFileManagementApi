@@ -9,7 +9,7 @@ public class FilePack : IEntity, IAuditable<FilePack>
 
     public string Name { get; set; }
     public string? Description { get; set; }
-    public List<string> Paths { get; set; }
+    public List<UserFile> Files { get; set; }
 
     public int CustomerId { get; set; }
     public Customer Customer { get; set; }
