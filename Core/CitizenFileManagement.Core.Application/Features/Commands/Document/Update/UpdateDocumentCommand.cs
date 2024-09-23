@@ -6,6 +6,5 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Upda
 
 public class UpdateDocumentCommand : IRequest<bool>
 {
-    public List<int> DeletedFiles { get; set; }
     public List<DocumentDTO> Files { get; set; }
 }

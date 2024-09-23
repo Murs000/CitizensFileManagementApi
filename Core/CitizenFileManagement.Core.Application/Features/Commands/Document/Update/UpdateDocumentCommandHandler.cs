@@ -16,7 +16,7 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Upda
         private readonly IUserRepository _userRepository;
         private readonly FileSettings _fileSettings;
 
-        public UpdateDocumentCommandHandler (IDocumentRepository documentRepository, IUserRepository userRepository, IUserManager userManager,IOptions<FileSettings> fileSettings)
+        public UpdateDocumentCommandHandler(IDocumentRepository documentRepository, IUserRepository userRepository, IUserManager userManager, IOptions<FileSettings> fileSettings)
         {
             _documentRepository = documentRepository;
             _userManager = userManager;
@@ -30,37 +30,26 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Upda
 
             var user = await _userRepository.GetAsync(u => u.Id == userId);
 
-            foreach(var file in request.Files)
+            foreach (var file in request.Files)
             {
                 var document = await _documentRepository.GetAsync(d => d.Id == file.Id);
 
-                if(request.DeletedFiles.Contains(file.Id))
+                document.Name = file.Name;
+                document.Description = file.Description;
+                document.Type = file.Type;
+
+                if (file.File != null)
                 {
                     File.Delete(document.Path);
 
-                    document.SetCredentials(user.Id);
+                    var filePath = await file.File.SaveAsync(_fileSettings.Path, user.Username);
 
-                    _documentRepository.SoftDelete(document);
+                    document.Path = filePath;
                 }
-                else
-                {
-                    document.Name = file.Name;
-                    document.Description = file.Description;
-                    document.Type = file.Type;
 
-                    if(file.File != null)
-                    {
-                        File.Delete(document.Path);
+                document.SetCredentials(user.Id);
 
-                        var filePath = await file.File.SaveAsync(_fileSettings.Path, user.Username);
-
-                        document.Path = filePath;
-                    }
-
-                    document.SetCredentials(user.Id);
-
-                    _documentRepository.Update(document);
-                }
+                _documentRepository.Update(document);
             }
 
             await _documentRepository.SaveAsync();

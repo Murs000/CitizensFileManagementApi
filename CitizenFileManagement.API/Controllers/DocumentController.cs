@@ -13,7 +13,7 @@ namespace CitizenFileManagement.API.Controllers
 {
     [Route("api/[Controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "Personal, Admin")]
     public class DocumentController : ControllerBase
     {
         private readonly IMediator _mediator;

@@ -25,6 +25,7 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.User.Update
 
             user.Customer.Name = request.Name;
             user.Customer.Surname = request.Surname;
+            user.Role = request.Role;
 
             _userRepository.Update(user);
 
