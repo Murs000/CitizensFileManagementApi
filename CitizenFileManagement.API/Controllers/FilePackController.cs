@@ -1,4 +1,6 @@
 using CitizenFileManagement.Core.Application.Features.Commands.FilePack.Create;
+using CitizenFileManagement.Core.Application.Features.Commands.FilePack.Delete;
+using CitizenFileManagement.Core.Application.Features.Commands.FilePack.Update;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +20,19 @@ namespace CitizenFileManagement.API.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> GetAll(CreateFilePackCommand command)
+        public async Task<IActionResult> Create(CreateFilePackCommand command)
         {
             return Ok(await _mediator.Send(command));
+        }
+        [HttpPut("update")]
+        public async Task<IActionResult> Update(UpdateFilePackCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+        [HttpDelete("delete")]
+        public async Task<IActionResult> Delete(List<int> ids)
+        {
+            return Ok(await _mediator.Send(new DeleteFilePackCommand{ FileIds = ids}));
         }
     }
 }
