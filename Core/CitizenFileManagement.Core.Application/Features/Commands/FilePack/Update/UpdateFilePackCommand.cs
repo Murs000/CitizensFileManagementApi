@@ -4,10 +4,11 @@ using CitizenFileManagement.Core.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 
-namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Create;
+namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Update;
 
-public class CreateFilePackCommand : IRequest<bool>
+public class UpdateFilePackCommand : IRequest<bool>
 {
-    public List<FilePackViewModel> FilePacks { get; set; }
+    public List<int> FileIds { get; set; }
+
+    public List<FilePackViewModel> Files { get; set; }
 }
- 

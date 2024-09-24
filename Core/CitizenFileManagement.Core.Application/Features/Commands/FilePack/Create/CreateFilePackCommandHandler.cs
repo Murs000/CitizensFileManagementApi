@@ -30,33 +30,34 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Crea
 
             var user = await _userRepository.GetAsync(u => u.Id == userId);
 
-
-            var filePack = new Domain.Entities.FilePack
+            foreach (var pack in request.FilePacks)
             {
-                Name = request.Name,
-                Description = request.Description,
-                CustomerId = user.CustomerId,
-                Files = []
-            };
-
-
-            foreach (var file in request.Files)
-            {
-                string filePath = await file.SaveAsync(_fileSettings.Path, user.Username);
-
-                var userFile = new UserFile
+                var filePack = new Domain.Entities.FilePack
                 {
-                    Name = file.FileName,
-                    Path = filePath
+                    Name = pack.Name,
+                    Description = pack.Description,
+                    CustomerId = user.CustomerId,
+                    Files = []
                 };
 
-                filePack.Files.Add(userFile);
+
+                foreach (var file in pack.Files)
+                {
+                    string filePath = await file.SaveAsync(_fileSettings.Path, user.Username);
+
+                    var userFile = new UserFile
+                    {
+                        Name = file.FileName,
+                        Path = filePath
+                    };
+
+                    filePack.Files.Add(userFile);
+                }
+
+                filePack.SetCreationCredentials(userId);
+
+                await _filePackRepository.AddAsync(filePack);
             }
-
-            filePack.SetCreationCredentials(userId);
-
-            await _filePackRepository.AddAsync(filePack);
-
             await _filePackRepository.SaveAsync();
 
             return true;
