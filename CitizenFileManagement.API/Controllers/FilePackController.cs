@@ -1,6 +1,7 @@
 using CitizenFileManagement.Core.Application.Features.Commands.FilePack.Create;
 using CitizenFileManagement.Core.Application.Features.Commands.FilePack.Delete;
 using CitizenFileManagement.Core.Application.Features.Commands.FilePack.Update;
+using CitizenFileManagement.Core.Application.Features.Queries.FilePack.Get;
 using CitizenFileManagement.Core.Application.Features.Queries.FilePack.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -41,10 +42,13 @@ namespace CitizenFileManagement.API.Controllers
             return Ok(await _mediator.Send(new GetAllFilePackQuery()));
         }
         [HttpGet("get-pack")]
-        public async Task<IActionResult> GetPack()
+        public async Task<IActionResult> GetPack([FromQuery]int fileId)
         {
-            return Ok(await _mediator.Send(new DeleteFilePackCommand()));
-        }
+            var query = new GetFilePackQuery{ FilePackId = fileId};
 
+            var returnDocumentViewModel = await _mediator.Send(query);
+
+            return File(returnDocumentViewModel.Bytes, returnDocumentViewModel.Type, returnDocumentViewModel.Name);
+        }
     }
 }
