@@ -34,5 +34,16 @@ namespace CitizenFileManagement.API.Controllers
         {
             return Ok(await _mediator.Send(new DeleteFilePackCommand{ FileIds = ids}));
         }
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _mediator.Send(new DeleteFilePackCommand()));
+        }
+        [HttpGet("get-pack")]
+        public async Task<IActionResult> GetPack()
+        {
+            return Ok(await _mediator.Send(new DeleteFilePackCommand()));
+        }
+
     }
 }
