@@ -1,6 +1,7 @@
 using CitizenFileManagement.Core.Application.Features.Commands.FilePack.Create;
 using CitizenFileManagement.Core.Application.Features.Commands.FilePack.Delete;
 using CitizenFileManagement.Core.Application.Features.Commands.FilePack.Update;
+using CitizenFileManagement.Core.Application.Features.Queries.FilePack.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +38,7 @@ namespace CitizenFileManagement.API.Controllers
         [HttpGet("get-all")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _mediator.Send(new DeleteFilePackCommand()));
+            return Ok(await _mediator.Send(new GetAllFilePackQuery()));
         }
         [HttpGet("get-pack")]
         public async Task<IActionResult> GetPack()
