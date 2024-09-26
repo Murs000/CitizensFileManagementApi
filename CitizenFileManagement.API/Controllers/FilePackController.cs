@@ -38,7 +38,7 @@ namespace CitizenFileManagement.API.Controllers
             return Ok(await _mediator.Send(new DeleteFilePackCommand{ FileIds = ids}));
         }
         [HttpGet("get-all")]
-        public async Task<IActionResult> GetAll([FromQuery] PaginationModel paginationModel, [FromQuery] FilterModel filterModel, string searchTerm)
+        public async Task<IActionResult> GetAll([FromQuery] PaginationModel? paginationModel, [FromQuery] FilterModel? filterModel, string? searchTerm)
         {
             return Ok(await _mediator.Send(new GetAllFilePackQuery{ FilterModel = filterModel, PaginationModel = paginationModel, SearchTerm = searchTerm}));
         }

@@ -9,7 +9,7 @@ namespace CitizenFileManagement.Core.Application.Features.Queries.FilePack.GetAl
 public class GetAllFilePackQuery : IRequest<List<FilePackViewModel>>
 {
     public string? SearchTerm { get; set; }
-    public FilterModel FilterModel { get; set; }
-    public PaginationModel PaginationModel { get; set; }
+    public FilterModel? FilterModel { get; set; }
+    public PaginationModel? PaginationModel { get; set; }
 
 }
