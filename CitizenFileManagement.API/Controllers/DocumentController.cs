@@ -4,6 +4,7 @@ using CitizenFileManagement.Core.Application.Features.Commands.Document.Update;
 using CitizenFileManagement.Core.Application.Features.Queries.Document.Get;
 using CitizenFileManagement.Core.Application.Features.Queries.Document.GetAll;
 using CitizenFileManagement.Core.Application.Features.Queries.Document.GetMultiple;
+using CitizenFileManagement.Core.Application.Features.Queries.Models;
 using CitizenFileManagement.Core.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -24,9 +25,9 @@ namespace CitizenFileManagement.API.Controllers
         }
 
         [HttpGet("get-all")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] PaginationModel? paginationModel, [FromQuery] FilterModel? filterModel, string? searchTerm)
         {
-            return Ok(await _mediator.Send(new GetAllDocumentQuery()));
+            return Ok(await _mediator.Send(new GetAllDocumentQuery{ FilterModel = filterModel, PaginationModel = paginationModel, SearchTerm = searchTerm}));
         }
 
         [HttpGet("get-by-id")]
