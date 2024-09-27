@@ -93,7 +93,7 @@ out/
 *.userprefs
 
 # Ignore build outputs
-bin/
-obj/
+../bin/
+../obj/
 Files/
 Infrastructure/CitizenFileManagement.Infrastructure.Persistence/Migrations/
