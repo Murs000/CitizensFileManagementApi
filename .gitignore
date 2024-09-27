@@ -92,8 +92,8 @@ out/
 *.user
 *.userprefs
 
-# Ignore build outputs
-../bin/
-../obj/
+# Ignore build outputs (bin and obj folders from all projects)
+**/bin/
+**/obj/
 Files/
 Infrastructure/CitizenFileManagement.Infrastructure.Persistence/Migrations/
