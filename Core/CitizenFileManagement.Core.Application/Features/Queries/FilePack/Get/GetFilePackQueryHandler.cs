@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Http;
 using CitizenFileManagement.Core.Application.Features.Queries.User.ViewModels;
 using CitizenFileManagement.Core.Application.Features.Queries.Document.ViewModels;
 using System.IO.Compression;
+using CitizenFileManagement.Core.Application.Features.Queries.Models;
 
 namespace CitizenFileManagement.Core.Application.Features.Queries.FilePack.Get;
 
-public class GetFilePackQueryHandler : IRequestHandler<GetFilePackQuery, ReturnDocumentViewModel>
+public class GetFilePackQueryHandler : IRequestHandler<GetFilePackQuery, ReturnDocumentModel>
 {
     private readonly IFilePackRepository _filePackRepository;
     private readonly IUserManager _userManager;
@@ -20,7 +21,7 @@ public class GetFilePackQueryHandler : IRequestHandler<GetFilePackQuery, ReturnD
         _userManager = userManager;
     }
 
-    public async Task<ReturnDocumentViewModel> Handle(GetFilePackQuery request, CancellationToken cancellationToken)
+    public async Task<ReturnDocumentModel> Handle(GetFilePackQuery request, CancellationToken cancellationToken)
     {
         var userId = _userManager.GetCurrentUserId();
         var filePack = await _filePackRepository.GetAsync(u => u.CreatorId == userId &&  u.Id == request.FilePackId, "Files");
@@ -55,7 +56,7 @@ public class GetFilePackQueryHandler : IRequestHandler<GetFilePackQuery, ReturnD
 
         byte[] fileBytes = memoryStream.ToArray();
 
-        return new ReturnDocumentViewModel
+        return new ReturnDocumentModel
         {
             Name = $"{filePack}.zip", // Name of the zip file
             Type = "application/zip", // Content type for zip files

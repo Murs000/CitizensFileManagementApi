@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Http;
 using CitizenFileManagement.Core.Application.Features.Queries.User.ViewModels;
 using CitizenFileManagement.Core.Application.Features.Queries.Document.ViewModels;
 using System.IO.Compression;
+using CitizenFileManagement.Core.Application.Features.Queries.Models;
 
 namespace CitizenFileManagement.Core.Application.Features.Queries.Document.GetMultiple;
 
-public class GetByTypeDocumentQueryHandler : IRequestHandler<GetByTypeDocumentQuery, ReturnDocumentViewModel>
+public class GetByTypeDocumentQueryHandler : IRequestHandler<GetByTypeDocumentQuery, ReturnDocumentModel>
 {
     private readonly IDocumentRepository _documentRepository;
     private readonly IUserManager _userManager;
@@ -20,7 +21,7 @@ public class GetByTypeDocumentQueryHandler : IRequestHandler<GetByTypeDocumentQu
         _userManager = userManager;
     }
 
-    public async Task<ReturnDocumentViewModel> Handle(GetByTypeDocumentQuery request, CancellationToken cancellationToken)
+    public async Task<ReturnDocumentModel> Handle(GetByTypeDocumentQuery request, CancellationToken cancellationToken)
     {
         var userId = _userManager.GetCurrentUserId();
         var documents = await _documentRepository.GetAllAsync(u => u.CreatorId == userId && u.Type == request.Type);
@@ -55,7 +56,7 @@ public class GetByTypeDocumentQueryHandler : IRequestHandler<GetByTypeDocumentQu
 
         byte[] fileBytes = memoryStream.ToArray();
 
-        return new ReturnDocumentViewModel
+        return new ReturnDocumentModel
         {
             Name = "Files.zip", // Name of the zip file
             Type = "application/zip", // Content type for zip files

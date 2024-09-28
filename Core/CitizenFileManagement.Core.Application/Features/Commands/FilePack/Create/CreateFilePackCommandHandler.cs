@@ -43,7 +43,7 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Crea
 
                 foreach (var file in pack.Files)
                 {
-                    string filePath = await file.SaveAsync(_fileSettings.Path, user.Username);
+                    string filePath = await file.SaveAsync(_fileSettings.Path+$"{pack.Name}", user.Username);
 
                     var userFile = new UserFile
                     {

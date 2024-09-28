@@ -5,10 +5,11 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using CitizenFileManagement.Core.Application.Features.Queries.User.ViewModels;
 using CitizenFileManagement.Core.Application.Features.Queries.Document.ViewModels;
+using CitizenFileManagement.Core.Application.Features.Queries.Models;
 
 namespace CitizenFileManagement.Core.Application.Features.Queries.Document.Get;
 
-public class GetDocumentQueryHandler : IRequestHandler<GetDocumentQuery, ReturnDocumentViewModel>
+public class GetDocumentQueryHandler : IRequestHandler<GetDocumentQuery, ReturnDocumentModel>
 {
     private readonly IDocumentRepository _documentRepository;
     private readonly IUserManager _userManager;
@@ -19,7 +20,7 @@ public class GetDocumentQueryHandler : IRequestHandler<GetDocumentQuery, ReturnD
         _userManager = userManager;
     }
 
-    public async Task<ReturnDocumentViewModel> Handle(GetDocumentQuery request, CancellationToken cancellationToken)
+    public async Task<ReturnDocumentModel> Handle(GetDocumentQuery request, CancellationToken cancellationToken)
     {
         var userId = _userManager.GetCurrentUserId();
         var document = await _documentRepository.GetAsync(u => u.CreatorId == userId && u.Id == request.DocumentId);
@@ -41,7 +42,7 @@ public class GetDocumentQueryHandler : IRequestHandler<GetDocumentQuery, ReturnD
             _ => "application/octet-stream"
         };
 
-        return new ReturnDocumentViewModel
+        return new ReturnDocumentModel
         {
             Name = document.Name + fileExtension,
             Type = contentType,

@@ -1,8 +1,8 @@
 using CitizenFileManagement.Core.Domain.Enums;
 
-namespace CitizenFileManagement.Core.Application.Features.Queries.Document.ViewModels;
+namespace CitizenFileManagement.Core.Application.Features.Queries.Models;
 
-public class ReturnDocumentViewModel
+public class ReturnDocumentModel
 {
     public string Name { get; set; }
     public string Type { get; set; }

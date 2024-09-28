@@ -57,7 +57,7 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Upda
                         var userFile = new UserFile
                         {
                             Name = file.FileName,
-                            Path = await file.SaveAsync(_fileSettings.Path, user.Username)        
+                            Path = await file.SaveAsync(_fileSettings.Path+$"{pack.Name}", user.Username)        
                         };
 
                         filePack.Files.Add(userFile);
