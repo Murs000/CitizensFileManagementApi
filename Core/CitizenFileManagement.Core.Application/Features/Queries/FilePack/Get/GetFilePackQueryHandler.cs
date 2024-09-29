@@ -58,7 +58,7 @@ public class GetFilePackQueryHandler : IRequestHandler<GetFilePackQuery, ReturnD
 
         return new ReturnDocumentModel
         {
-            Name = $"{filePack}.zip", // Name of the zip file
+            Name = $"{filePack.Name}.zip", // Name of the zip file
             Type = "application/zip", // Content type for zip files
             Bytes = fileBytes // The byte array representing the zip file
         };

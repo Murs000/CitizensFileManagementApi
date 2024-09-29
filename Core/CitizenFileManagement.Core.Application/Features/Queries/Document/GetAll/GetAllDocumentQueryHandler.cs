@@ -9,7 +9,7 @@ using CitizenFileManagement.Core.Application.Features.Queries.Models;
 
 namespace CitizenFileManagement.Core.Application.Features.Queries.Document.GetAll;
 
-public class GetAllDocumentQueryHandler : IRequestHandler<GetAllDocumentQuery, List<DocumentViewModel>>
+public class GetAllDocumentQueryHandler : IRequestHandler<GetAllDocumentQuery, ReturnItemModel<DocumentViewModel>>
 {
     private readonly IDocumentRepository _documentRepository;
     private readonly IUserManager _userManager;
@@ -20,7 +20,7 @@ public class GetAllDocumentQueryHandler : IRequestHandler<GetAllDocumentQuery, L
         _userManager = userManager;
     }
 
-    public async Task<List<DocumentViewModel>> Handle(GetAllDocumentQuery request, CancellationToken cancellationToken)
+    public async Task<ReturnItemModel<DocumentViewModel>> Handle(GetAllDocumentQuery request, CancellationToken cancellationToken)
     {
         var userId = _userManager.GetCurrentUserId();
         var documents = await _documentRepository.GetAllAsync(u => u.CreatorId == userId);
@@ -28,8 +28,7 @@ public class GetAllDocumentQueryHandler : IRequestHandler<GetAllDocumentQuery, L
         // Filter the results
         documents = ApplyFilter(documents, request.FilterModel);
 
-        // Search within the results
-        documents = ApplySearch(documents, request.SearchTerm);
+        int count = documents.Count();
 
         // Apply pagination logic
         documents = ApplyPagination(documents, request.PaginationModel);
@@ -54,10 +53,14 @@ public class GetAllDocumentQueryHandler : IRequestHandler<GetAllDocumentQuery, L
             documentViewModels.Add(documentViewModel);
         }
 
-        return documentViewModels;
+        return new ReturnItemModel<DocumentViewModel>
+        {
+            Items = documentViewModels,
+            Count = count
+        };
     }
     // Filtration Logic
-    private IEnumerable<Domain.Entities.Document> ApplyFilter(IEnumerable<Domain.Entities.Document> documents, FilterModel filter)
+    private IEnumerable<Domain.Entities.Document> ApplyFilter(IEnumerable<Domain.Entities.Document> documents, FilterModel? filter)
     {
         if (filter == null) return documents;
 
@@ -71,25 +74,19 @@ public class GetAllDocumentQueryHandler : IRequestHandler<GetAllDocumentQuery, L
             documents = documents.Where(fp => fp.CreateDate <= filter.CreatedBefore.Value);
         }
 
-        return documents;
-    }
+        if (string.IsNullOrEmpty(filter.SearchTerm)) return documents;
 
-    // Search Logic
-    private IEnumerable<Domain.Entities.Document> ApplySearch(IEnumerable<Domain.Entities.Document> documents, string? searchTerm)
-    {
-        if (string.IsNullOrEmpty(searchTerm)) return documents;
-
-        searchTerm = searchTerm.ToLower();
-        documents = documents.Where(fp => fp.Name.ToLower().Contains(searchTerm));
+        filter.SearchTerm = filter.SearchTerm.ToLower();
+        documents = documents.Where(fp => fp.Name.ToLower().Contains(filter.SearchTerm) || 
+                                    (fp.Description != null && fp.Description.ToLower().Contains(filter.SearchTerm)));
 
         return documents;
     }
 
     // Pagination Logic
-    private IEnumerable<Domain.Entities.Document> ApplyPagination(IEnumerable<Domain.Entities.Document> documents, PaginationModel paginationModel)
+    private IEnumerable<Domain.Entities.Document> ApplyPagination(IEnumerable<Domain.Entities.Document> documents, PaginationModel? paginationModel)
     {
-        if (paginationModel.PageNumber <= 0) paginationModel.PageNumber = 1;
-        if (paginationModel.PageSize <= 0) paginationModel.PageSize = 10;
+        if (paginationModel == null || (paginationModel.PageSize == 0 && paginationModel.PageNumber == 0)) return documents;
 
         return documents.Skip((paginationModel.PageNumber - 1) * paginationModel.PageSize).Take(paginationModel.PageSize);
     }

@@ -25,9 +25,9 @@ namespace CitizenFileManagement.API.Controllers
         }
 
         [HttpGet("get-all")]
-        public async Task<IActionResult> GetAll([FromQuery] PaginationModel? paginationModel, [FromQuery] FilterModel? filterModel, string? searchTerm)
+        public async Task<IActionResult> GetAll([FromQuery] PaginationModel? paginationModel, [FromQuery] FilterModel? filterModel)
         {
-            return Ok(await _mediator.Send(new GetAllDocumentQuery{ FilterModel = filterModel, PaginationModel = paginationModel, SearchTerm = searchTerm}));
+            return Ok(await _mediator.Send(new GetAllDocumentQuery{ FilterModel = filterModel, PaginationModel = paginationModel}));
         }
 
         [HttpGet("get-by-id")]

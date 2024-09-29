@@ -11,7 +11,7 @@ using CitizenFileManagement.Core.Application.Features.Queries.Models;
 
 namespace CitizenFileManagement.Core.Application.Features.Queries.FilePack.GetAll;
 
-public class GetAllFilePackQueryHandler : IRequestHandler<GetAllFilePackQuery, List<FilePackViewModel>>
+public class GetAllFilePackQueryHandler : IRequestHandler<GetAllFilePackQuery, ReturnItemModel<FilePackViewModel>>
 {
     private readonly IFilePackRepository _filePackRepository;
     private readonly IUserManager _userManager;
@@ -22,7 +22,7 @@ public class GetAllFilePackQueryHandler : IRequestHandler<GetAllFilePackQuery, L
         _userManager = userManager;
     }
 
-    public async Task<List<FilePackViewModel>> Handle(GetAllFilePackQuery request, CancellationToken cancellationToken)
+    public async Task<ReturnItemModel<FilePackViewModel>> Handle(GetAllFilePackQuery request, CancellationToken cancellationToken)
     {
         var userId = _userManager.GetCurrentUserId();
         var filePacks = await _filePackRepository.GetAllAsync(u => u.CreatorId == userId, "Files");
@@ -30,8 +30,7 @@ public class GetAllFilePackQueryHandler : IRequestHandler<GetAllFilePackQuery, L
         // Filter the results
         filePacks = ApplyFilter(filePacks, request.FilterModel);
 
-        // Search within the results
-        filePacks = ApplySearch(filePacks, request.SearchTerm);
+        int count = filePacks.Count();
 
         // Apply pagination logic
         filePacks = ApplyPagination(filePacks, request.PaginationModel);
@@ -55,14 +54,17 @@ public class GetAllFilePackQueryHandler : IRequestHandler<GetAllFilePackQuery, L
             filePackViewModels.Add(filePackViewModel);
         }
 
-        return filePackViewModels;
+        return new ReturnItemModel<FilePackViewModel>
+        {
+            Items = filePackViewModels,
+            Count = count
+        };
     }
     // Filtration Logic
-    private IEnumerable<Domain.Entities.FilePack> ApplyFilter(IEnumerable<Domain.Entities.FilePack> filePacks, FilterModel filter)
+    private IEnumerable<Domain.Entities.FilePack> ApplyFilter(IEnumerable<Domain.Entities.FilePack> filePacks, FilterModel? filter)
     {
         if (filter == null) return filePacks;
 
-        // Example filter: Filter by CreatedDate, Status, or any other properties
         if (filter.CreatedAfter.HasValue)
         {
             filePacks = filePacks.Where(fp => fp.CreateDate >= filter.CreatedAfter.Value);
@@ -72,25 +74,20 @@ public class GetAllFilePackQueryHandler : IRequestHandler<GetAllFilePackQuery, L
             filePacks = filePacks.Where(fp => fp.CreateDate <= filter.CreatedBefore.Value);
         }
 
-        return filePacks;
-    }
+        if (string.IsNullOrEmpty(filter.SearchTerm)) return filePacks;
 
-    // Search Logic
-    private IEnumerable<Domain.Entities.FilePack> ApplySearch(IEnumerable<Domain.Entities.FilePack> filePacks, string? searchTerm)
-    {
-        if (string.IsNullOrEmpty(searchTerm)) return filePacks;
-
-        searchTerm = searchTerm.ToLower();
-        filePacks = filePacks.Where(fp => fp.Name.ToLower().Contains(searchTerm));
+        filter.SearchTerm = filter.SearchTerm.ToLower();
+        filePacks = filePacks.Where(fp => fp.Name.ToLower().Contains(filter.SearchTerm) || 
+                                    (fp.Description != null && fp.Description.ToLower().Contains(filter.SearchTerm)) || 
+                                    fp.Files.Select(f => f.Name).Contains(filter.SearchTerm));
 
         return filePacks;
     }
 
     // Pagination Logic
-    private IEnumerable<Domain.Entities.FilePack> ApplyPagination(IEnumerable<Domain.Entities.FilePack> filePacks, PaginationModel paginationModel)
+    private IEnumerable<Domain.Entities.FilePack> ApplyPagination(IEnumerable<Domain.Entities.FilePack> filePacks, PaginationModel? paginationModel)
     {
-        if (paginationModel.PageNumber <= 0) paginationModel.PageNumber = 1;
-        if (paginationModel.PageSize <= 0) paginationModel.PageSize = 10;
+        if (paginationModel == null || (paginationModel.PageSize == 0 && paginationModel.PageNumber == 0)) return filePacks;
 
         return filePacks.Skip((paginationModel.PageNumber - 1) * paginationModel.PageSize).Take(paginationModel.PageSize);
     }
