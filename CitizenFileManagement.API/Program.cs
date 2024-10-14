@@ -108,6 +108,8 @@ if (app.Environment.IsDevelopment())
     db.Database.EnsureCreated();
 }
 
+app.UseSerilogRequestLogging();
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

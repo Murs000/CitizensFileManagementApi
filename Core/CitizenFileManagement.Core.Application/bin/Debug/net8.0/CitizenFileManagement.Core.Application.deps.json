@@ -121,7 +121,10 @@
       "System.Text.Encodings.Web/4.5.0": {},
       "CitizenFileManagement.Core.Domain/1.0.0": {
         "runtime": {
-          "CitizenFileManagement.Core.Domain.dll": {}
+          "CitizenFileManagement.Core.Domain.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "CitizenFileManagement.Infrastructure.External/1.0.0": {
@@ -130,7 +133,10 @@
           "Microsoft.Extensions.Options": "8.0.2"
         },
         "runtime": {
-          "CitizenFileManagement.Infrastructure.External.dll": {}
+          "CitizenFileManagement.Infrastructure.External.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
