@@ -7,6 +7,8 @@ using CitizenFileManagement.Infrastructure.Persistence.DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,6 +75,19 @@ builder.Services.AddSwaggerGen(c =>
     c.AddSecurityRequirement(securityRequirement);
 });
 builder.Services.AddHttpContextAccessor();
+
+// Configure Serilog from appsettings.json
+builder.Host.UseSerilog((ctx, lc) => lc
+    .ReadFrom.Configuration(ctx.Configuration) // Read from appsettings.json
+    .Enrich.WithExceptionDetails() // Capture exception details
+    .Enrich.FromLogContext() // Add log context info
+    .Enrich.WithMachineName() // Include machine name in logs
+    .Enrich.WithThreadId() // Include thread ID
+    .Enrich.WithEnvironmentName() // Include environment name
+    .WriteTo.Console() // Log to console
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day) // Log to file
+);
+
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(nameof(JwtSettings)));
