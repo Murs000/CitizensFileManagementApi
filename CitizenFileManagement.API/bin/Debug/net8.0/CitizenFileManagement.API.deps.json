@@ -16,9 +16,6 @@
           "Microsoft.AspNetCore.OpenApi": "8.0.6",
           "Microsoft.EntityFrameworkCore.Design": "8.0.8",
           "Serilog.AspNetCore": "8.0.3",
-          "Serilog.Enrichers.Environment": "3.0.1",
-          "Serilog.Enrichers.Thread": "4.0.0",
-          "Serilog.Exceptions": "8.4.0",
           "Serilog.Settings.Configuration": "8.0.4",
           "Serilog.Sinks.Console": "6.0.0",
           "Serilog.Sinks.File": "6.0.0",
@@ -654,40 +651,6 @@
           }
         }
       },
-      "Serilog.Enrichers.Environment/3.0.1": {
-        "dependencies": {
-          "Serilog": "4.0.0"
-        },
-        "runtime": {
-          "lib/net8.0/Serilog.Enrichers.Environment.dll": {
-            "assemblyVersion": "3.0.0.0",
-            "fileVersion": "3.0.0.0"
-          }
-        }
-      },
-      "Serilog.Enrichers.Thread/4.0.0": {
-        "dependencies": {
-          "Serilog": "4.0.0"
-        },
-        "runtime": {
-          "lib/net8.0/Serilog.Enrichers.Thread.dll": {
-            "assemblyVersion": "4.0.0.0",
-            "fileVersion": "4.0.0.0"
-          }
-        }
-      },
-      "Serilog.Exceptions/8.4.0": {
-        "dependencies": {
-          "Serilog": "4.0.0",
-          "System.Reflection.TypeExtensions": "4.7.0"
-        },
-        "runtime": {
-          "lib/net6.0/Serilog.Exceptions.dll": {
-            "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.4.0.0"
-          }
-        }
-      },
       "Serilog.Extensions.Hosting/8.0.0": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0",
@@ -903,7 +866,6 @@
           "System.Collections.Immutable": "6.0.0"
         }
       },
-      "System.Reflection.TypeExtensions/4.7.0": {},
       "System.Runtime.CompilerServices.Unsafe/6.0.0": {},
       "System.Text.Encoding.CodePages/6.0.0": {
         "dependencies": {
@@ -1343,27 +1305,6 @@
       "path": "serilog.aspnetcore/8.0.3",
       "hashPath": "serilog.aspnetcore.8.0.3.nupkg.sha512"
     },
-    "Serilog.Enrichers.Environment/3.0.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-9BqCE4C9FF+/rJb/CsQwe7oVf44xqkOvMwX//CUxvUR25lFL4tSS6iuxE5eW07quby1BAyAEP+vM6TWsnT3iqw==",
-      "path": "serilog.enrichers.environment/3.0.1",
-      "hashPath": "serilog.enrichers.environment.3.0.1.nupkg.sha512"
-    },
-    "Serilog.Enrichers.Thread/4.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-C7BK25a1rhUyr+Tp+1BYcVlBJq7M2VCHlIgnwoIUVJcicM9jYcvQK18+OeHiXw7uLPSjqWxJIp1EfaZ/RGmEwA==",
-      "path": "serilog.enrichers.thread/4.0.0",
-      "hashPath": "serilog.enrichers.thread.4.0.0.nupkg.sha512"
-    },
-    "Serilog.Exceptions/8.4.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-nc/+hUw3lsdo0zCj0KMIybAu7perMx79vu72w0za9Nsi6mWyNkGXxYxakAjWB7nEmYL6zdmhEQRB4oJ2ALUeug==",
-      "path": "serilog.exceptions/8.4.0",
-      "hashPath": "serilog.exceptions.8.4.0.nupkg.sha512"
-    },
     "Serilog.Extensions.Hosting/8.0.0": {
       "type": "package",
       "serviceable": true,
@@ -1531,13 +1472,6 @@
       "sha512": "sha512-III/lNMSn0ZRBuM9m5Cgbiho5j81u0FAEagFX5ta2DKbljZ3T0IpD8j+BIiHQPeKqJppWS9bGEp6JnKnWKze0g==",
       "path": "system.reflection.metadata/6.0.1",
       "hashPath": "system.reflection.metadata.6.0.1.nupkg.sha512"
-    },
-    "System.Reflection.TypeExtensions/4.7.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-VybpaOQQhqE6siHppMktjfGBw1GCwvCqiufqmP8F1nj7fTUNtW35LOEt3UZTEsECfo+ELAl/9o9nJx3U91i7vA==",
-      "path": "system.reflection.typeextensions/4.7.0",
-      "hashPath": "system.reflection.typeextensions.4.7.0.nupkg.sha512"
     },
     "System.Runtime.CompilerServices.Unsafe/6.0.0": {
       "type": "package",

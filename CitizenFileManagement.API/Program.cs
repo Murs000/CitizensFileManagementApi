@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using Serilog.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,16 +75,11 @@ builder.Services.AddSwaggerGen(c =>
 });
 builder.Services.AddHttpContextAccessor();
 
-// Configure Serilog from appsettings.json
+// Configure Serilog
 builder.Host.UseSerilog((ctx, lc) => lc
-    .ReadFrom.Configuration(ctx.Configuration) // Read from appsettings.json
-    .Enrich.WithExceptionDetails() // Capture exception details
-    .Enrich.FromLogContext() // Add log context info
-    .Enrich.WithMachineName() // Include machine name in logs
-    .Enrich.WithThreadId() // Include thread ID
-    .Enrich.WithEnvironmentName() // Include environment name
-    .WriteTo.Console() // Log to console
-    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day) // Log to file
+    .ReadFrom.Configuration(ctx.Configuration)
+    .WriteTo.Console()
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
 );
 
 

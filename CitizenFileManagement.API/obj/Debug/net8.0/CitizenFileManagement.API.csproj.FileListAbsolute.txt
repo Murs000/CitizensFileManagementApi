@@ -37,9 +37,6 @@
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/Scrutor.dll
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/Serilog.dll
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/Serilog.AspNetCore.dll
-/Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/Serilog.Enrichers.Environment.dll
-/Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/Serilog.Enrichers.Thread.dll
-/Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/Serilog.Exceptions.dll
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/Serilog.Extensions.Hosting.dll
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/Serilog.Extensions.Logging.dll
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/Serilog.Formatting.Compact.dll
