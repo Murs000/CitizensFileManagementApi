@@ -136,3 +136,6 @@
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/obj/Debug/net8.0/CitizenFileManagement.API.pdb
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/obj/Debug/net8.0/CitizenFileManagement.API.genruntimeconfig.cache
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/obj/Debug/net8.0/ref/CitizenFileManagement.API.dll
+/Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/Serilog.Enrichers.Environment.dll
+/Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/logs/log-20241015.json
+/Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/Serilog.Enrichers.Thread.dll
