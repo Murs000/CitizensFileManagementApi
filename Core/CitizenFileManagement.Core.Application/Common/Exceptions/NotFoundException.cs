@@ -1,4 +1,4 @@
-namespace CitizenFileManagement.Core.Application.Exceptions;
+namespace CitizenFileManagement.Core.Application.Common.Exceptions;
 
 public class NotFoundException : Exception
 {

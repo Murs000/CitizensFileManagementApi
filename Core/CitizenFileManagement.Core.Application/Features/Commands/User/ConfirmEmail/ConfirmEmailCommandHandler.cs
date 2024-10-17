@@ -1,4 +1,4 @@
-using CitizenFileManagement.Core.Application.Exceptions;
+using CitizenFileManagement.Core.Application.Common.Exceptions;
 using CitizenFileManagement.Core.Application.Interfaces;
 using MediatR;
 

@@ -1,5 +1,5 @@
 using System.Security.Cryptography;
-using CitizenFileManagement.Core.Application.Exceptions;
+using CitizenFileManagement.Core.Application.Common.Exceptions;
 using CitizenFileManagement.Core.Application.Features.Commands.User.ViewModels;
 using CitizenFileManagement.Core.Application.Interfaces;
 using CitizenFileManagement.Infrastructure.External.Helpers;

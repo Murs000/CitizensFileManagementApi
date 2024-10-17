@@ -1,6 +1,6 @@
 using System.Net;
 using System.Text.Json;
-using CitizenFileManagement.Core.Application.Exceptions;
+using CitizenFileManagement.Core.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CitizenFileManagement.API.Middlewares;

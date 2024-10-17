@@ -1,6 +1,6 @@
 using MediatR;
 using CitizenFileManagement.Core.Application.Interfaces;
-using CitizenFileManagement.Core.Application.Exceptions;
+using CitizenFileManagement.Core.Application.Common.Exceptions;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using CitizenFileManagement.Core.Application.Features.Queries.User.ViewModels;
