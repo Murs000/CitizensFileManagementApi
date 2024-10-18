@@ -3,17 +3,16 @@ using CitizenFileManagement.Core.Domain.Enums;
 
 namespace CitizenFileManagement.Core.Domain.Entities;
 
-public class Document : IEntity, IAuditable<Document>
+public class Document : BaseEntity<Document>
 {
-    public int Id { get; set; }
-
     public string Name { get; set; }
     public string Path { get; set; }
     public string? Description { get; set; }
     public DocumentType Type { get; set; }
 
-    public int CustomerId { get; set; }
-    public Customer Customer { get; set; }
+    public int UserId { get; set; }
+    public User User { get; set; }         // Each document belongs to a user
+    public ICollection<FilePackDocument> FilePackDocuments { get; set; }    // Many-to-many with FilePack
 
     public Document SetDetails(string name, string path, string description, DocumentType type)
     {
@@ -21,43 +20,6 @@ public class Document : IEntity, IAuditable<Document>
         Path = path;
         Description = description;
         Type = type;
-
-        return this;
-    }
-
-    public int? CreatorId { get; set; }
-    public User? Creator { get; set; }
-    public DateTime? CreateDate { get; set; }
-    public int? ModifierId { get; set; }
-    public User? Modifier { get; set; }
-    public DateTime? ModifyDate { get; set; }
-    public bool IsDeleted { get; set; }
-
-    public Document SetCreationCredentials(int userId)
-    {
-        CreatorId = userId;
-        CreateDate = DateTime.UtcNow.AddHours(4);
-
-        return this;
-    }
-
-    public Document SetCredentials(int userId)
-    {
-        if(CreateDate == null)
-        {
-            SetCreationCredentials(userId);
-        }
-        else
-        {
-            SetModifyCredentials(userId);
-        }
-        return this;
-    }
-
-    public Document SetModifyCredentials(int userId)
-    {
-        ModifierId = userId;
-        ModifyDate = DateTime.UtcNow.AddHours(4);
 
         return this;
     }
