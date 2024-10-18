@@ -48,7 +48,7 @@ public class GetAllFilePackQueryHandler : IRequestHandler<GetAllFilePackQuery, R
             {
                 Id = filePack.Id,
                 Name = filePack.Name,
-                Files = filePack.Files?.Select(fp => fp.Name).ToList() ?? []
+                Files = filePack.Documents?.Select(fp => fp.Name).ToList() ?? []
             };
 
             filePackViewModels.Add(filePackViewModel);
@@ -79,7 +79,7 @@ public class GetAllFilePackQueryHandler : IRequestHandler<GetAllFilePackQuery, R
         filter.SearchTerm = filter.SearchTerm.ToLower();
         filePacks = filePacks.Where(fp => fp.Name.ToLower().Contains(filter.SearchTerm) || 
                                     (fp.Description != null && fp.Description.ToLower().Contains(filter.SearchTerm)) || 
-                                    fp.Files.Select(f => f.Name).Contains(filter.SearchTerm));
+                                    fp.Documents.Select(f => f.Name).Contains(filter.SearchTerm));
 
         return filePacks;
     }

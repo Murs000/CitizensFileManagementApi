@@ -34,7 +34,7 @@ public class GetFilePackQueryHandler : IRequestHandler<GetFilePackQuery, ReturnD
         using var memoryStream = new MemoryStream();
         using (var zipArchive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
         {
-            foreach (var file in filePack.Files)
+            foreach (var file in filePack.Documents)
             {
                 var filePath = file.Path; // Full path of the document
                 var fileName = file.Name; // File name from your database, including the extension
