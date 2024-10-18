@@ -8,6 +8,6 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Crea
 
 public class CreateFilePackCommand : IRequest<bool>
 {
-    public List<FilePackViewModel> FilePacks { get; set; }
+    public List<CreateFilePackViewModel> FilePacks { get; set; }
 }
  

@@ -10,5 +10,5 @@ public class UpdateFilePackCommand : IRequest<bool>
 {
     public List<int> FileIds { get; set; }
 
-    public List<FilePackViewModel> Files { get; set; }
+    public List<UpdateFilePackViewModel> Files { get; set; }
 }

@@ -31,6 +31,13 @@ public class DocumentConfiguration : IEntityTypeConfiguration<Document>
             .HasForeignKey(d => d.UserId)
             .OnDelete(DeleteBehavior.Restrict);  // Prevent cascading delete
 
+        // Relationships
+        builder.HasOne(d => d.FilePack)
+            .WithMany(u => u.Documents)
+            .HasForeignKey(d => d.FilePackId)
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);  // Prevent cascading delete
+
         builder.HasOne(u => u.Creator)
             .WithMany()
             .HasForeignKey(u => u.CreatorId)

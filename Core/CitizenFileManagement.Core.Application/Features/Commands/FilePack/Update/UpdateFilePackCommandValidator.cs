@@ -7,10 +7,14 @@ public class UpdateFilePackCommandValidator : AbstractValidator<UpdateFilePackCo
 {
     public UpdateFilePackCommandValidator()
     {
-        RuleForEach(x => x.FileIds).NotNull();
+        RuleForEach(x => x.FileIds).NotEmpty();
         RuleForEach(x => x.Files)
             .ChildRules(documents =>
             {
+                documents.RuleFor(x => x.Id)
+                    .NotEmpty()
+                    .WithMessage("Document id is required.");
+
                 documents.RuleFor(x => x.Name)
                     .NotEmpty()
                     .WithMessage("Document name is required.");

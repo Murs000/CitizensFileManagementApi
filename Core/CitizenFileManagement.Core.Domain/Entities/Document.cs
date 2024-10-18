@@ -11,8 +11,10 @@ public class Document : BaseEntity<Document>
     public DocumentType Type { get; set; }
 
     public int UserId { get; set; }
-    public User User { get; set; }         // Each document belongs to a user
-    public ICollection<FilePackDocument> FilePackDocuments { get; set; }    // Many-to-many with FilePack
+    public User User { get; set; }
+
+    public int FilePackId { get; set; }
+    public FilePack? FilePack { get; set; }
 
     public Document SetDetails(string name, string path, DocumentType type, string? description)
     {
@@ -30,5 +32,10 @@ public class Document : BaseEntity<Document>
 
         return this;
     }
+    public Document SetFilePack(int packId)
+    {
+        FilePackId = packId;
 
+        return this;
+    }
 }

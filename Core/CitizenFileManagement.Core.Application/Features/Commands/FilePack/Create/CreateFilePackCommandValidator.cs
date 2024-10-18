@@ -18,8 +18,7 @@ public class CreateFilePackCommandValidator : AbstractValidator<CreateFilePackCo
                     .MaximumLength(500)
                     .WithMessage("Description must not exceed 500 characters.");
 
-                documents.RuleForEach(x => x.Files)
-                    .NotNull();
+                documents.RuleForEach(x => x.Files);
             });
     }
 }

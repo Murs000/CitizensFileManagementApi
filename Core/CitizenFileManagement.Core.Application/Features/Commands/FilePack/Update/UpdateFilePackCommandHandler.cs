@@ -6,21 +6,22 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System.IO;
+using CitizenFileManagement.Core.Domain.Enums;
 
 namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Update
 {
     public class UpdateFilePackCommandHandler : IRequestHandler<UpdateFilePackCommand, bool>
     {
-        private readonly IUserFileRepository _userFileRepository;
+        private readonly IDocumentRepository _documentRepository;
         private readonly IUserManager _userManager;
         private readonly IUserRepository _userRepository;
         private readonly FileSettings _fileSettings;
         private readonly IFilePackRepository _filePackRepository;
 
-        public UpdateFilePackCommandHandler(IFilePackRepository filePackRepository, IUserFileRepository userFileRepository, IUserRepository userRepository, IUserManager userManager, IOptions<FileSettings> fileSettings)
+        public UpdateFilePackCommandHandler(IFilePackRepository filePackRepository, IDocumentRepository documentRepository, IUserRepository userRepository, IUserManager userManager, IOptions<FileSettings> fileSettings)
         {
             _filePackRepository = filePackRepository;
-            _userFileRepository = userFileRepository;
+            _documentRepository = documentRepository;
             _userManager = userManager;
             _fileSettings = fileSettings.Value;
             _userRepository = userRepository;
@@ -34,13 +35,13 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Upda
 
             foreach (var id in request.FileIds)
             {
-                var file = await _userFileRepository.GetAsync(uf => uf.Id == id);
+                var file = await _documentRepository.GetAsync(uf => uf.Id == id);
 
                 File.Delete(file.Path);
 
-                _userFileRepository.SoftDelete(file);
-
                 file.SetCredentials(userId);
+
+                _documentRepository.SoftDelete(file);
             }
 
             foreach(var pack in request.Files)
@@ -52,16 +53,18 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Upda
 
                 if(pack.Files != null)
                 {
-                    foreach(var file in pack.Files)
+                    foreach (var file in pack.Files)
                     {
-                        var userFile = new UserFile
-                        {
-                            Name = file.FileName,
-                            Path = await file.SaveAsync(_fileSettings.Path+$"{pack.Name}", user.Username)        
-                        };
+                        string filePath = await file.SaveAsync(_fileSettings.Path+$"{pack.Name}", user.Username);
 
-                        filePack.Files.Add(userFile);
+                        var document = new Domain.Entities.Document();
+
+                        document.SetDetails(file.FileName, filePath, DocumentType.Other, null);
+                        await _documentRepository.AddAsync(document);
+
+                        filePack.Documents.Add(document);
                     }
+                    await _documentRepository.SaveAsync();
                 }
                 filePack.SetCredentials(userId);
 

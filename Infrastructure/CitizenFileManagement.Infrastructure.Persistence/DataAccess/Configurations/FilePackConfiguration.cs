@@ -18,7 +18,7 @@ public class FilePackConfiguration : IEntityTypeConfiguration<FilePack>
             .HasMaxLength(500);
 
         // Relationships
-        builder.HasMany(fp => fp.FilePackDocuments)
+        builder.HasMany(fp => fp.Documents)
             .WithOne(fpDoc => fpDoc.FilePack)
             .HasForeignKey(fpDoc => fpDoc.FilePackId)
             .OnDelete(DeleteBehavior.Cascade);  // Allow cascading delete for documents

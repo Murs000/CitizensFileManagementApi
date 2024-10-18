@@ -11,16 +11,16 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Dele
 {
     public class DeleteFilePackCommandHandler : IRequestHandler<DeleteFilePackCommand, bool>
     {
-        private readonly IUserFileRepository _userFileRepository;
         private readonly IUserManager _userManager;
         private readonly IUserRepository _userRepository;
         private readonly FileSettings _fileSettings;
         private readonly IFilePackRepository _filePackRepository;
+        private readonly IDocumentRepository _documentRepository;
 
-        public DeleteFilePackCommandHandler(IFilePackRepository filePackRepository, IUserFileRepository userFileRepository, IUserRepository userRepository, IUserManager userManager, IOptions<FileSettings> fileSettings)
+        public DeleteFilePackCommandHandler(IFilePackRepository filePackRepository,IDocumentRepository documentRepository, IUserRepository userRepository, IUserManager userManager, IOptions<FileSettings> fileSettings)
         {
             _filePackRepository = filePackRepository;
-            _userFileRepository = userFileRepository;
+            _documentRepository = documentRepository;
             _userManager = userManager;
             _fileSettings = fileSettings.Value;
             _userRepository = userRepository;
@@ -36,18 +36,17 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Dele
             {
                 var filePack = await _filePackRepository.GetAsync(uf => uf.Id == id);
 
-                foreach(var file in filePack.Files)
+                foreach(var file in filePack.Documents)
                 {
                     File.Delete(file.Path);
 
-                    _userFileRepository.SoftDelete(file);
-
                     file.SetCredentials(userId);
+
+                    _documentRepository.SoftDelete(file);
                 }
+                filePack.SetCredentials(userId);
             
                 _filePackRepository.SoftDelete(filePack);
-
-                filePack.SetCredentials(userId);
             }
 
             await _filePackRepository.SaveAsync();
