@@ -4,6 +4,7 @@ using CitizenFileManagement.Infrastructure.External.Helpers;
 using MediatR;
 using System.Threading.Tasks;
 using System.Threading;
+using CitizenFileManagement.Core.Domain.Enums;
 
 namespace CitizenFileManagement.Core.Application.Features.Commands.User.Register
 {
@@ -23,16 +24,13 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.User.Register
             var user = new Domain.Entities.User
             {
                 Username = request.Username,
+                Name = request.Name,
+                Surname = request.Surname,
                 Email = request.Email,
                 IsActivated = false,
             };
 
-            var customer = new Customer
-            {
-                Name = request.Name,
-                Surname = request.Surname
-            };
-            user.Customer = customer;
+            user.SetDetails(request.Username, request.Name, request.Surname, request.Email, UserRole.Personal);
 
             // Hash password
             (string hash, string salt) = PasswordHelper.HashPassword(request.Password);

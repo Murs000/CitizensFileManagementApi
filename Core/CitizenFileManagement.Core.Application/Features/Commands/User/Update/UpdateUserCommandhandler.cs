@@ -21,11 +21,10 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.User.Update
         public async Task<bool> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
             var userId = _userManager.GetCurrentUserId();
-            var user = await _userRepository.GetAsync(u => u.Id == userId,"Customer");
+            var user = await _userRepository.GetAsync(u => u.Id == userId);
 
-            user.Customer.Name = request.Name;
-            user.Customer.Surname = request.Surname;
-            user.Role = request.Role;
+            user.UpdateDetails(request.Name, request.Surname, request.Role)
+                .SetCredentials(userId);
 
             _userRepository.Update(user);
 

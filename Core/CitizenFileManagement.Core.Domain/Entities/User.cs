@@ -37,10 +37,20 @@ public class User : BaseEntity<User>
 
         return this;
     }
-    public User SetDetails(string username, string email, UserRole role)
+    public User SetDetails(string username, string name, string surname, string email, UserRole role)
     {
         Email = email;
         Username = username;
+        Name = name;
+        Surname = surname;
+        Role = role;
+
+        return this;
+    }
+    public User UpdateDetails(string name, string surname, UserRole role)
+    {
+        Name = name;
+        Surname = surname;
         Role = role;
 
         return this;
