@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using CitizenFileManagement.Core.Application.Features.Queries.User.ViewModels;
 using CitizenFileManagement.Core.Application.Features.Queries.Document.ViewModels;
 using CitizenFileManagement.Core.Application.Features.Queries.Models;
+using CitizenFileManagement.Infrastructure.External.Helpers;
 
 namespace CitizenFileManagement.Core.Application.Features.Queries.Document.Get;
 
@@ -31,16 +32,8 @@ public class GetDocumentQueryHandler : IRequestHandler<GetDocumentQuery, ReturnD
         }
 
         var fileExtension = Path.GetExtension(document.Path).ToLowerInvariant();
-
-        var contentType = fileExtension switch
-        {
-            ".pdf" => "application/pdf",
-            ".docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ".jpg" => "image/jpeg",
-            ".png" => "image/png",
-            // Add more file types as needed
-            _ => "application/octet-stream"
-        };
+        
+        var contentType = FileExtensionHelper.GetExtension(fileExtension);
 
         return new ReturnDocumentModel
         {
