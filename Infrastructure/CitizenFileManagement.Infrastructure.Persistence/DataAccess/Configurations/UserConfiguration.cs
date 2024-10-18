@@ -1,8 +1,6 @@
+using CitizenFileManagement.Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using CitizenFileManagement.Core.Domain.Entities;
-
-namespace CitizenFileManagement.Infrastructure.Persistence.DataAccess.Configurations;
 
 public class UserConfiguration : IEntityTypeConfiguration<User>
 {
@@ -16,8 +14,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(150);
 
         builder.HasIndex(u => u.Username)
-            .IsUnique(); 
+            .IsUnique();
 
+        // Email - required, max length 255, and unique
         builder.Property(u => u.Email)
             .IsRequired()
             .HasMaxLength(255);
@@ -25,33 +24,59 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasIndex(u => u.Email)
             .IsUnique();
 
-        builder.Property(u => u.PasswordHash)
+        // Name and Surname - required
+        builder.Property(u => u.Name)
+            .IsRequired();
+        
+        builder.Property(u => u.Surname)
             .IsRequired();
 
+        // PasswordHash and PasswordSalt - required
+        builder.Property(u => u.PasswordHash)
+            .IsRequired();
+        
         builder.Property(u => u.PasswordSalt)
             .IsRequired();
 
+        // Role - required, enum-based conversion
         builder.Property(u => u.Role)
-            .IsRequired();
+            .IsRequired()
+            .HasConversion<string>();  // Storing as string
 
-        // Relationship with Customer
-        builder.HasOne(u => u.Customer)
-            .WithOne(c => c.User)
-            .HasForeignKey<Customer>(c => c.UserId);
+        // Relationships
+        builder.HasMany(u => u.Documents)
+            .WithOne(d => d.User)
+            .HasForeignKey(d => d.UserId)
+            .OnDelete(DeleteBehavior.Restrict);  // Prevent cascading delete
+        
+        builder.HasMany(u => u.FilePacks)
+            .WithOne(fp => fp.User)
+            .HasForeignKey(fp => fp.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(u => u.Creator)
             .WithMany()
-            .HasForeignKey(u => u.CreatorId);
+            .HasForeignKey(u => u.CreatorId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(u => u.Modifier)
             .WithMany()
-            .HasForeignKey(u => u.ModifierId);
+            .HasForeignKey(u => u.ModifierId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         // Audit fields
-        builder.Property(u => u.CreateDate).IsRequired(false);
-        builder.Property(u => u.ModifyDate).IsRequired(false);
-        builder.Property(u => u.IsDeleted).HasDefaultValue(false);
+        builder.Property(u => u.CreateDate)
+            .IsRequired()
+            .HasDefaultValueSql("GETUTCDATE()");
 
-        builder.HasQueryFilter(d => d.IsDeleted == false);
+        builder.Property(u => u.ModifyDate)
+            .IsRequired(false);
+
+        builder.Property(u => u.IsDeleted)
+            .IsRequired()
+            .HasDefaultValue(false);
+
+        // Soft-delete filter
+        builder.HasQueryFilter(u => u.IsDeleted == false);
     }
 }

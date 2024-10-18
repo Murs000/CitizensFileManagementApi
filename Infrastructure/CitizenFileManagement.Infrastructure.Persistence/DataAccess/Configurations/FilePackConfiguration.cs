@@ -17,30 +17,40 @@ public class FilePackConfiguration : IEntityTypeConfiguration<FilePack>
         builder.Property(fp => fp.Description)
             .HasMaxLength(500);
 
-        builder.HasMany(fp => fp.Files)
-            .WithOne()
-            .HasForeignKey(uf => uf.FilePackId);
+        // Relationships
+        builder.HasMany(fp => fp.FilePackDocuments)
+            .WithOne(fpDoc => fpDoc.FilePack)
+            .HasForeignKey(fpDoc => fpDoc.FilePackId)
+            .OnDelete(DeleteBehavior.Cascade);  // Allow cascading delete for documents
 
-        builder.HasOne(fp => fp.Customer)
-            .WithMany(c => c.FilePacks)
-            .HasForeignKey(fp => fp.CustomerId)
-            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(fp => fp.User)
+            .WithMany(u => u.FilePacks)
+            .HasForeignKey(fp => fp.UserId)
+            .OnDelete(DeleteBehavior.Restrict);  // Prevent cascading delete
 
-        builder.HasOne(fp => fp.Creator)
+        builder.HasOne(u => u.Creator)
             .WithMany()
-            .HasForeignKey(fp => fp.CreatorId)
+            .HasForeignKey(u => u.CreatorId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(fp => fp.Modifier)
+        builder.HasOne(u => u.Modifier)
             .WithMany()
-            .HasForeignKey(fp => fp.ModifierId)
+            .HasForeignKey(u => u.ModifierId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Optional: Configure auditing fields as required
-        builder.Property(fp => fp.CreateDate).IsRequired(false);
-        builder.Property(fp => fp.ModifyDate).IsRequired(false);
-        builder.Property(fp => fp.IsDeleted).HasDefaultValue(false);
+        // Audit fields
+        builder.Property(u => u.CreateDate)
+            .IsRequired()
+            .HasDefaultValueSql("GETUTCDATE()");
 
-        builder.HasQueryFilter(fp => fp.IsDeleted == false);
+        builder.Property(u => u.ModifyDate)
+            .IsRequired(false);
+
+        builder.Property(u => u.IsDeleted)
+            .IsRequired()
+            .HasDefaultValue(false);
+
+        // Soft-delete filter
+        builder.HasQueryFilter(u => u.IsDeleted == false);
     }
 }

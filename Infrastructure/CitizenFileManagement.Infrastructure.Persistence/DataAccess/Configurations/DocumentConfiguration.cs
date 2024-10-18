@@ -25,22 +25,35 @@ public class DocumentConfiguration : IEntityTypeConfiguration<Document>
             .IsRequired()
             .HasConversion<string>();
 
-        builder.HasOne(d => d.Creator)
+        // Relationships
+        builder.HasOne(d => d.User)
+            .WithMany(u => u.Documents)
+            .HasForeignKey(d => d.UserId)
+            .OnDelete(DeleteBehavior.Restrict);  // Prevent cascading delete
+
+        builder.HasOne(u => u.Creator)
             .WithMany()
-            .HasForeignKey(d => d.CreatorId);
+            .HasForeignKey(u => u.CreatorId)
+            .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(d => d.Modifier)
+        builder.HasOne(u => u.Modifier)
             .WithMany()
-            .HasForeignKey(d => d.ModifierId);
+            .HasForeignKey(u => u.ModifierId)
+            .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(c => c.Customer)
-            .WithMany()
-            .HasForeignKey(c => c.CustomerId);
+        // Audit fields
+        builder.Property(u => u.CreateDate)
+            .IsRequired()
+            .HasDefaultValueSql("GETUTCDATE()");
 
-        builder.Property(d => d.CreateDate).IsRequired(false);
-        builder.Property(d => d.ModifyDate).IsRequired(false);
-        builder.Property(d => d.IsDeleted).HasDefaultValue(false);
+        builder.Property(u => u.ModifyDate)
+            .IsRequired(false);
 
-        builder.HasQueryFilter(d => d.IsDeleted == false);
+        builder.Property(u => u.IsDeleted)
+            .IsRequired()
+            .HasDefaultValue(false);
+
+        // Soft-delete filter
+        builder.HasQueryFilter(u => u.IsDeleted == false);
     }
 }
