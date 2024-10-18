@@ -14,7 +14,7 @@ public class FilePack : BaseEntity<FilePack>
 
     public ICollection<FilePackDocument> FilePackDocuments { get; set; } 
 
-    public FilePack SetDetails(string name, string description)
+    public FilePack SetDetails(string name, string? description)
     {
         Name = name;
         Description = description;

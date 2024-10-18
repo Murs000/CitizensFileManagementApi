@@ -14,7 +14,7 @@ public class Document : BaseEntity<Document>
     public User User { get; set; }         // Each document belongs to a user
     public ICollection<FilePackDocument> FilePackDocuments { get; set; }    // Many-to-many with FilePack
 
-    public Document SetDetails(string name, string path, string description, DocumentType type)
+    public Document SetDetails(string name, string path, DocumentType type, string? description)
     {
         Name = name;
         Path = path;

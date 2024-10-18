@@ -11,4 +11,12 @@ public class FilePackDocument : BaseEntity<FilePackDocument>
     public Document Document { get; set; }
 
     public DateTime AddedAt { get; set; } = DateTime.UtcNow;
+
+    public FilePackDocument SetDetails(int filePackId, int documentId)
+    {
+        FilePackId = filePackId;
+        DocumentId = documentId;
+
+        return this;
+    }  
 }
