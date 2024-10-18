@@ -8,5 +8,5 @@ public interface IEditable<T>
     public User? Modifier { get; set; }
     public DateTime? ModifyDate { get; set; }
     public bool IsDeleted { get; set; }
-    public T SetModifyCredentials(int userId);
+    public T SetModifyCredentials(int? userId);
 }

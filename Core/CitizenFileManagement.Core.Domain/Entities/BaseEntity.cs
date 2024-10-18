@@ -15,7 +15,7 @@ public class BaseEntity<T> : IEntity, IAuditable<T> where T : BaseEntity<T>
     public DateTime? ModifyDate { get; set; }
     public bool IsDeleted { get; set; }
 
-    public T SetCreationCredentials(int userId)
+    public T SetCreationCredentials(int? userId)
     {
         CreatorId = userId;
         CreateDate = DateTime.UtcNow.AddHours(4);
@@ -23,7 +23,7 @@ public class BaseEntity<T> : IEntity, IAuditable<T> where T : BaseEntity<T>
         return (T)this;
     }
 
-    public T SetCredentials(int userId)
+    public T SetCredentials(int? userId)
     {
         if(CreateDate == null)
         {
@@ -37,7 +37,7 @@ public class BaseEntity<T> : IEntity, IAuditable<T> where T : BaseEntity<T>
         return (T)this;;
     }
 
-    public T SetModifyCredentials(int userId)
+    public T SetModifyCredentials(int? userId)
     {
         ModifierId = userId;
         ModifyDate = DateTime.UtcNow.AddHours(4);

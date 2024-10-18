@@ -24,7 +24,7 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.User.Update
             var user = await _userRepository.GetAsync(u => u.Id == userId);
 
             user.UpdateDetails(request.Name, request.Surname, request.Role)
-                .SetCredentials(userId);
+                .SetCredentials(null);
 
             _userRepository.Update(user);
 

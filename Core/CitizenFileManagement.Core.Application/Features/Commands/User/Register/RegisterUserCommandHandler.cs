@@ -30,7 +30,8 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.User.Register
                 IsActivated = false,
             };
 
-            user.SetDetails(request.Username, request.Name, request.Surname, request.Email, UserRole.Personal);
+            user.SetDetails(request.Username, request.Name, request.Surname, request.Email, UserRole.Personal)
+                .SetCredentials(null);
 
             // Hash password
             (string hash, string salt) = PasswordHelper.HashPassword(request.Password);

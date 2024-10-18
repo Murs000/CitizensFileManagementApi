@@ -50,8 +50,7 @@ public class DocumentConfiguration : IEntityTypeConfiguration<Document>
 
         // Audit fields
         builder.Property(u => u.CreateDate)
-            .IsRequired()
-            .HasDefaultValueSql("GETUTCDATE()");
+            .IsRequired();
 
         builder.Property(u => u.ModifyDate)
             .IsRequired(false);

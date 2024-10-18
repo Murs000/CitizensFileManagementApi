@@ -8,5 +8,5 @@ public interface ICreatable<T>
     public User? Creator { get; set; } 
     public DateTime? CreateDate { get; set; }
 
-    public T SetCreationCredentials(int userId);
+    public T SetCreationCredentials(int? userId);
 }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CitizenFileManagement.Infrastructure.External")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eb6fe1c305d1c2e8fdcc968e1c19256f76093d93")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ac23ff39d95ecdd53ff7baf9934259b87db438ad")]
 [assembly: System.Reflection.AssemblyProductAttribute("CitizenFileManagement.Infrastructure.External")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CitizenFileManagement.Infrastructure.External")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
