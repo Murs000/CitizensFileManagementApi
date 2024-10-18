@@ -32,9 +32,10 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDto>
         // Map entity to DTO
         var userDto = new UserDto
         {
+            Id = user.Id,
             Username = user.Username,
-            Name = user.Customer.Name,
-            Surname = user.Customer.Surname,
+            Name = user.Name,
+            Surname = user.Surname,
             Email = user.Email
         };
 
