@@ -23,4 +23,12 @@ public class Document : BaseEntity<Document>
 
         return this;
     }
+
+    public Document SetUser(int userId)
+    {
+        UserId = userId;
+
+        return this;
+    }
+
 }

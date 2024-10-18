@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CitizenFileManagement.Core.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6386aa1ac3827470ab78b4d6ae59c29b79323ab0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+be14f5d11bad19f5c6493762983f939d323c7bd5")]
 [assembly: System.Reflection.AssemblyProductAttribute("CitizenFileManagement.Core.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CitizenFileManagement.Core.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -23,7 +23,8 @@ public class CreateDocumentCommandValidator : AbstractValidator<CreateDocumentCo
                     .WithMessage("Invalid document type.");
 
                 documents.RuleFor(x => x.File)
-                    .NotNull();
+                    .NotNull()
+                    .WithMessage("File is required");
             });
     }
 }

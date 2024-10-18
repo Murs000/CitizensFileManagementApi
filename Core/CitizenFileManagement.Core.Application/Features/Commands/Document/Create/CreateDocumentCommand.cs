@@ -7,6 +7,6 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Crea
 
 public class CreateDocumentCommand : IRequest<bool>
 {
-    public List<DocumentDTO> Files { get; set; }
+    public List<CreateDocumentDTO> Files { get; set; }
 }
  

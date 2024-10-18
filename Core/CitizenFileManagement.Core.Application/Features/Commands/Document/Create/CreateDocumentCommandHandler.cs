@@ -34,16 +34,10 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Crea
             {
                 string filePath = await documentDTO.File.SaveAsync(_fileSettings.Path , user.Username);
 
-                var document = new Domain.Entities.Document
-                {
-                    Name = documentDTO.Name,
-                    Path = filePath, 
-                    Description = documentDTO.Description,
-                    Type = documentDTO.Type,
-                    CustomerId = user.CustomerId
-                };
+                var document = new Domain.Entities.Document();
 
-                document.SetCreationCredentials(userId);
+                document.SetDetails(documentDTO.Name, filePath, documentDTO.Type, documentDTO.Description)
+                    .SetCredentials(userId);
 
                 await _documentRepository.AddAsync(document);
             }

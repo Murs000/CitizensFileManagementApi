@@ -32,7 +32,7 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Dele
             {
                 var document = await _documentRepository.GetAsync(d => d.Id == id);
 
-                //File.Delete(document.Path);
+                File.Delete(document.Path);
 
                 document.SetCredentials(user.Id);
 

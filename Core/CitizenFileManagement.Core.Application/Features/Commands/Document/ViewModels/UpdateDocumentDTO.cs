@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace CitizenFileManagement.Core.Application.Features.Commands.Document.ViewModels;
 
-public class DocumentDTO
+public class UpdateDocumentDTO
 {
     public int Id { get; set; }
     public string Name { get; set; }
