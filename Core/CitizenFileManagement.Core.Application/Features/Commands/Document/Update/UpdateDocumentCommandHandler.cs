@@ -42,7 +42,7 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Upda
                 {
                     File.Delete(document.Path);
 
-                    var filePath = await file.File.SaveAsync(_fileSettings.Path, user.Username);
+                    var filePath = await file.File.SaveAsync(_fileSettings.Path, user.Username,null);
 
                     document.Path = filePath;
                 }

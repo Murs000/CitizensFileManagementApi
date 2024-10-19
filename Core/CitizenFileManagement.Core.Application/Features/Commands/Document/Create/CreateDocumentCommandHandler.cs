@@ -28,16 +28,19 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Crea
         {
             var userId = _userManager.GetCurrentUserId();
 
-            var user = await _userRepository.GetAsync(u => u.Id == userId);
+            var user = await _userRepository.GetAsync(u => u.Id == userId, "FilePacks");
+
+            // TODO: Add User Nullable Check
 
             foreach (var documentDTO in request.Files)
             {
-                string filePath = await documentDTO.File.SaveAsync(_fileSettings.Path , user.Username);
+                string filePath = await documentDTO.File.SaveAsync(_fileSettings.Path , user.Username, null);
 
                 var document = new Domain.Entities.Document();
 
                 document.SetDetails(documentDTO.Name, filePath, documentDTO.Type, documentDTO.Description)
-                    .SetCredentials(userId);
+                    .SetCredentials(userId)
+                    .SetFilePack(user.FilePacks.Select(fp => fp.Id).Min());
 
                 await _documentRepository.AddAsync(document);
             }
