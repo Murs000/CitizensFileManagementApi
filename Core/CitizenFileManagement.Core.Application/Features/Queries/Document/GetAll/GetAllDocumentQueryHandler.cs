@@ -25,6 +25,9 @@ public class GetAllDocumentQueryHandler : IRequestHandler<GetAllDocumentQuery, R
         var userId = _userManager.GetCurrentUserId();
         var documents = await _documentRepository.GetAllAsync(u => u.CreatorId == userId);
 
+        var defaultPackId = documents.Select(d => d.Id).Min();
+        documents = documents.Where(d => d.FilePackId == defaultPackId);
+
         // Filter the results
         documents = ApplyFilter(documents, request.FilterModel);
 
