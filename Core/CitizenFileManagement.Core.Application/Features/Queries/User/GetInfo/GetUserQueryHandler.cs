@@ -22,7 +22,7 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDto>
     {
         // Extract email or user ID from the token (claims)
         var userId = _userManager.GetCurrentUserId();
-        var user = await _userRepository.GetAsync(u => u.Id == userId,"Customer");
+        var user = await _userRepository.GetAsync(u => u.Id == userId);
 
         if (user == null)
         {
