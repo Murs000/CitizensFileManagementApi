@@ -12,23 +12,18 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.User.Register
     {
         private readonly IUserRepository _userRepository;
         private readonly IEmailService _emailService;
+        private readonly IFilePackRepository _filePackRepository;
 
-        public RegisterUserCommandHandler(IUserRepository userRepository, IEmailService emailService)
+        public RegisterUserCommandHandler(IUserRepository userRepository, IEmailService emailService, IFilePackRepository filePackRepository)
         {
+            _filePackRepository = filePackRepository;
             _userRepository = userRepository;
             _emailService = emailService;
         }
 
         public async Task<bool> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            var user = new Domain.Entities.User
-            {
-                Username = request.Username,
-                Name = request.Name,
-                Surname = request.Surname,
-                Email = request.Email,
-                IsActivated = false,
-            };
+            var user = new Domain.Entities.User();
 
             user.SetDetails(request.Username, request.Name, request.Surname, request.Email, UserRole.Personal)
                 .SetCredentials(null);
@@ -45,6 +40,14 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.User.Register
             // Save user and customer data
             await _userRepository.AddAsync(user);
             await _userRepository.SaveAsync();
+
+            // Create Default Pack
+            var filepack = new Domain.Entities.FilePack();
+            filepack.SetDetails(request.Username,"All PackLess Files")
+                .SetCredentials(user.Id)
+                .SetUser(user.Id);
+            await _filePackRepository.AddAsync(filepack);
+            await _filePackRepository.SaveAsync();
 
             // Send OTP email
             await _emailService.SendEmailAsync(user.Email, "OTP message", otp);
