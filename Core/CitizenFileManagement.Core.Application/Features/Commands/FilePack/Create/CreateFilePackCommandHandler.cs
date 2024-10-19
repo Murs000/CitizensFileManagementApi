@@ -37,30 +37,31 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Crea
             {
                 var filePack = new Domain.Entities.FilePack();
 
-                filePack.SetDetails(pack.Name, pack.Description);
+                filePack.SetDetails(pack.Name, pack.Description)
+                    .SetCreationCredentials(userId)
+                    .SetUser(userId);
                 filePack.Documents = [];
+
+                await _filePackRepository.AddAsync(filePack);
+                await _filePackRepository.SaveAsync();
 
                 if(pack.Files != null)
                 {
                     foreach (var file in pack.Files)
                     {
-                        string filePath = await file.SaveAsync(_fileSettings.Path+$"{pack.Name}", user.Username);
+                        string filePath = await file.SaveAsync(_fileSettings.Path, user.Username, pack.Name);
 
                         var document = new Domain.Entities.Document();
 
-                        document.SetDetails(file.FileName, filePath, DocumentType.Other, null);
-                        await _documentRepository.AddAsync(document);
+                        document.SetDetails(file.FileName, filePath, DocumentType.Other, null)
+                            .SetFilePack(filePack.Id)
+                            .SetCredentials(userId);
 
-                        filePack.Documents.Add(document);
+                        await _documentRepository.AddAsync(document);
                     }
                     await _documentRepository.SaveAsync();
                 }
-
-                filePack.SetCreationCredentials(userId);
-
-                await _filePackRepository.AddAsync(filePack);
             }
-            await _filePackRepository.SaveAsync();
 
             return true;
         }

@@ -55,7 +55,7 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Upda
                 {
                     foreach (var file in pack.Files)
                     {
-                        string filePath = await file.SaveAsync(_fileSettings.Path+$"{pack.Name}", user.Username);
+                        string filePath = await file.SaveAsync(_fileSettings.Path, user.Username, pack.Name);
 
                         var document = new Domain.Entities.Document();
 

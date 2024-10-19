@@ -30,11 +30,14 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Dele
         {
             var userId = _userManager.GetCurrentUserId();
 
-            var user = await _userRepository.GetAsync(u => u.Id == userId);
+            var user = await _userRepository.GetAsync(u => u.Id == userId, "FilePacks");
 
-            foreach (var id in request.FileIds)
+            foreach (int id in request.FileIds)
             {
-                var filePack = await _filePackRepository.GetAsync(uf => uf.Id == id);
+                if (id == user.FilePacks.Select(f => f.Id).Min())
+                    continue;
+
+                var filePack = await _filePackRepository.GetAsync(uf => uf.Id == id,"Documents");
 
                 foreach(var file in filePack.Documents)
                 {
