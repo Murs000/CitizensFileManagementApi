@@ -42,12 +42,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.Role)
             .IsRequired()
             .HasConversion<string>();  // Storing as string
-
-        // Relationships
-        builder.HasMany(u => u.Documents)
-            .WithOne(d => d.User)
-            .HasForeignKey(d => d.UserId)
-            .OnDelete(DeleteBehavior.Restrict);  // Prevent cascading delete
         
         builder.HasMany(u => u.FilePacks)
             .WithOne(fp => fp.User)

@@ -26,12 +26,6 @@ public class DocumentConfiguration : IEntityTypeConfiguration<Document>
             .HasConversion<string>();
 
         // Relationships
-        builder.HasOne(d => d.User)
-            .WithMany(u => u.Documents)
-            .HasForeignKey(d => d.UserId)
-            .OnDelete(DeleteBehavior.Restrict);  // Prevent cascading delete
-
-        // Relationships
         builder.HasOne(d => d.FilePack)
             .WithMany(u => u.Documents)
             .HasForeignKey(d => d.FilePackId)
