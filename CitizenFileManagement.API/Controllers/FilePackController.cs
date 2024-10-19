@@ -23,12 +23,12 @@ namespace CitizenFileManagement.API.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> Create(CreateFilePackCommand command)
+        public async Task<IActionResult> Create([FromForm]CreateFilePackCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
         [HttpPut("update")]
-        public async Task<IActionResult> Update(UpdateFilePackCommand command)
+        public async Task<IActionResult> Update([FromForm]UpdateFilePackCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
