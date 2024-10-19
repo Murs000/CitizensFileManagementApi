@@ -10,11 +10,8 @@ public class Document : BaseEntity<Document>
     public string? Description { get; set; }
     public DocumentType Type { get; set; }
 
-    public int UserId { get; set; }
-    public User User { get; set; }
-
     public int FilePackId { get; set; }
-    public FilePack? FilePack { get; set; }
+    public FilePack FilePack { get; set; }
 
     public Document SetDetails(string name, string path, DocumentType type, string? description)
     {
@@ -26,12 +23,6 @@ public class Document : BaseEntity<Document>
         return this;
     }
 
-    public Document SetUser(int userId)
-    {
-        UserId = userId;
-
-        return this;
-    }
     public Document SetFilePack(int packId)
     {
         FilePackId = packId;

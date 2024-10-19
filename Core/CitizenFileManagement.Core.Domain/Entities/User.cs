@@ -18,7 +18,6 @@ public class User : BaseEntity<User>
     public bool IsActivated { get; set; }
     public UserRole Role { get; set; }
 
-    public ICollection<Document> Documents { get; set; }
     public ICollection<FilePack> FilePacks { get; set; }
 
 

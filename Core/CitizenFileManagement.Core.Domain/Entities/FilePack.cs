@@ -19,5 +19,11 @@ public class FilePack : BaseEntity<FilePack>
         Description = description;
 
         return this;
+    }
+    public FilePack SetUser(int userId)
+    {
+        UserId = userId;
+
+        return this;
     }   
 }
