@@ -7,9 +7,19 @@ namespace CitizenFileManagement.Infrastructure.External.Extensions
 {
     public static class IFormFileExtensions
     {
-        public static async Task<string> SaveAsync(this IFormFile file, string basePath, string username)
+        public static async Task<string> SaveAsync(this IFormFile file, string basePath, string username, string? filepack)
         {
-            string userFolderPath = Path.Combine(basePath, username);
+            string userFolderPath = string.Empty;
+            
+            if (filepack != null)
+            {
+                userFolderPath = Path.Combine(basePath, username, filepack);
+            }
+            else
+            {
+                userFolderPath = Path.Combine(basePath, username);
+            }
+            
 
             if (!Directory.Exists(userFolderPath))
             {
