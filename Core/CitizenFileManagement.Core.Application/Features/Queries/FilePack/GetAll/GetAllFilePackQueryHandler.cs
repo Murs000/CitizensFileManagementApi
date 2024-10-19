@@ -25,7 +25,7 @@ public class GetAllFilePackQueryHandler : IRequestHandler<GetAllFilePackQuery, R
     public async Task<ReturnItemModel<FilePackViewModel>> Handle(GetAllFilePackQuery request, CancellationToken cancellationToken)
     {
         var userId = _userManager.GetCurrentUserId();
-        var filePacks = await _filePackRepository.GetAllAsync(u => u.CreatorId == userId, "Files");
+        var filePacks = await _filePackRepository.GetAllAsync(u => u.CreatorId == userId, "Documents");
 
         // Filter the results
         filePacks = ApplyFilter(filePacks, request.FilterModel);
@@ -48,7 +48,8 @@ public class GetAllFilePackQueryHandler : IRequestHandler<GetAllFilePackQuery, R
             {
                 Id = filePack.Id,
                 Name = filePack.Name,
-                Files = filePack.Documents?.Select(fp => fp.Name).ToList() ?? []
+                Description = filePack.Description,
+                Files = filePack.Documents?.Select( fp => fp.Name ).ToList() ?? []
             };
 
             filePackViewModels.Add(filePackViewModel);
