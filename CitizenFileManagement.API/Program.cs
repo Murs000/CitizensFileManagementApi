@@ -1,6 +1,7 @@
 using System.Text;
 using CitizenFileManagement.API.Middlewares;
 using CitizenFileManagement.Core.Application;
+using CitizenFileManagement.Infrastructure.External;
 using CitizenFileManagement.Infrastructure.External.Settings;
 using CitizenFileManagement.Infrastructure.Persistence;
 using CitizenFileManagement.Infrastructure.Persistence.DataAccess;
@@ -18,6 +19,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddPersistenceRegistration(builder.Configuration);
 
 builder.Services.AddApplicationRegistration();
+
+builder.Services.AddExternalRegistration(builder.Configuration);
 
 // var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
