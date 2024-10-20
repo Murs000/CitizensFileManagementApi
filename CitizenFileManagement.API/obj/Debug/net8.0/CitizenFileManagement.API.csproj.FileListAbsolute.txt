@@ -142,3 +142,4 @@
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/logs/log-20241017.json
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/logs/log-20241018.json
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/logs/log-20241019.json
+/Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/logs/log-20241020.json

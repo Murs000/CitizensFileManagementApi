@@ -83,6 +83,7 @@ builder.Host.UseSerilog((context, configuration) =>
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(nameof(JwtSettings)));
 builder.Services.Configure<FileSettings>(builder.Configuration.GetSection(nameof(FileSettings)));
+builder.Services.Configure<MinIOSettings>(builder.Configuration.GetSection(nameof(MinIOSettings)));
 
 var app = builder.Build();
 
@@ -98,10 +99,6 @@ if (app.Environment.IsDevelopment())
     var db = scope.ServiceProvider.GetRequiredService<CitizenFileDB>();
     db.Database.EnsureCreated();
 }
-
-app.UseSerilogRequestLogging();
-
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
