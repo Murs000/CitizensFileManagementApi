@@ -4,14 +4,14 @@ namespace CitizenFileManagement.Infrastructure.External.Services.MinIOService;
 
 public interface IMinIOService
 {
-    public Task CreateUserBucketAsync(string userId);
+    // Ensure bucket exists; create if not.
+    public Task EnsureBucketExistsAsync(string bucketName);
 
-    // Method to upload a document (with or without a file pack)
-    public Task UploadDocumentAsync(string userId, string filePackName, string objectName, Stream fileStream);
+    // Upload a file
+    public Task UploadFileAsync(string objectName, Stream fileStream, string contentType,string bucketName);
 
-    // Method to list all objects in a bucket (documents and file packs)
-    public Task ListObjectsAsync(string userId);
-
-    // Method to download a document
-    public Task DownloadDocumentAsync(string userId, string filePackName, string objectName, string destinationPath);
+    // Download a file
+    public Task<Stream> DownloadFileAsync(string objectName,string bucketName);
+    // Delete a file
+    public Task DeleteFileAsync(string objectName,string bucketName);
 }

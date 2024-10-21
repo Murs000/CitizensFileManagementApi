@@ -1,79 +1,70 @@
 using Minio;
-using Minio.DataModel;
-using System;
-using System.IO;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using CitizenFileManagement.Infrastructure.External.Settings;
+using Minio.DataModel.Args;
 
 namespace CitizenFileManagement.Infrastructure.External.Services.MinIOService;
 
-public class MinioService : IMinIOService
+public class MinIOService : IMinIOService
 {
     private readonly MinioClient _minioClient;
 
-    public MinioService(string endpoint, string accessKey, string secretKey)
+    public MinIOService(IOptions<MinIOSettings> options)
     {
-        // _minioClient = new MinioClient()
-        //     .WithEndpoint(endpoint)
-        //     .WithCredentials(accessKey, secretKey)
-        //     .Build();
+        var minioOptions = options.Value;
+
+        _minioClient = (MinioClient?)new MinioClient()
+            .WithEndpoint(minioOptions.Endpoint)
+            .WithCredentials(minioOptions.AccessKey, minioOptions.SecretKey)
+            .Build();
     }
 
-    // Method to create a user bucket
-    public async Task CreateUserBucketAsync(string userId)
+    // Ensure bucket exists; create if not.
+    public async Task EnsureBucketExistsAsync(string bucketName)
     {
-        // string bucketName = userId.ToLower();
-        // bool bucketExists = await _minioClient.BucketExistsAsync(bucketName);
-        // if (!bucketExists)
-        // {
-        //     await _minioClient.MakeBucketAsync(bucketName);
-        //     Console.WriteLine($"Bucket '{bucketName}' created for user.");
-        // }
+        var found = await _minioClient.BucketExistsAsync(new BucketExistsArgs().WithBucket(bucketName));
+        if (!found)
+        {
+            await _minioClient.MakeBucketAsync(new MakeBucketArgs().WithBucket(bucketName));
+        }
     }
 
-    // Method to upload a document (with or without a file pack)
-    public async Task UploadDocumentAsync(string userId, string filePackName, string objectName, Stream fileStream)
+    // Upload a file
+    public async Task UploadFileAsync(string objectName, Stream fileStream, string contentType,string bucketName)
     {
-        // string bucketName = userId.ToLower();
-        // string objectPath = string.IsNullOrEmpty(filePackName) 
-        //     ? objectName                // For free documents
-        //     : $"{filePackName}/{objectName}"; // For documents inside file packs
-        
-        // // Upload file to MinIO
-        // await _minioClient.PutObjectAsync(new PutObjectArgs()
-        //     .WithBucket(bucketName)
-        //     .WithObject(objectPath)
-        //     .WithStreamData(fileStream)
-        //     .WithObjectSize(fileStream.Length));
+        await EnsureBucketExistsAsync(bucketName);
 
-        // Console.WriteLine($"Document '{objectName}' uploaded to '{bucketName}/{objectPath}'.");
+        await _minioClient.PutObjectAsync(new PutObjectArgs()
+            .WithBucket(bucketName)
+            .WithObject(objectName)
+            .WithStreamData(fileStream)
+            .WithObjectSize(fileStream.Length)
+            .WithContentType(contentType)
+        );
     }
 
-    // Method to list all objects in a bucket (documents and file packs)
-    public async Task ListObjectsAsync(string userId)
+    // Download a file
+    public async Task<Stream> DownloadFileAsync(string objectName,string bucketName)
     {
-        // string bucketName = userId.ToLower();
-        // IObservable<Item> observable = _minioClient.ListObjectsAsync(bucketName, "", true);
-        // observable.Subscribe(
-        //     item => Console.WriteLine($"Object found: {item.Key}"),
-        //     ex => Console.WriteLine($"Error: {ex.Message}"),
-        //     () => Console.WriteLine("Object listing completed.")
-        //);
+        var memoryStream = new MemoryStream();
+        await _minioClient.GetObjectAsync(new GetObjectArgs()
+            .WithBucket(bucketName)
+            .WithObject(objectName)
+            .WithCallbackStream(stream =>
+            {
+                stream.CopyTo(memoryStream);
+            })
+        );
+        memoryStream.Position = 0;
+        return memoryStream;
     }
 
-    // Method to download a document
-    public async Task DownloadDocumentAsync(string userId, string filePackName, string objectName, string destinationPath)
+    // Delete a file
+    public async Task DeleteFileAsync(string objectName,string bucketName)
     {
-        // string bucketName = userId.ToLower();
-        // string objectPath = string.IsNullOrEmpty(filePackName)
-        //     ? objectName                // For free documents
-        //     : $"{filePackName}/{objectName}"; // For file pack documents
-
-        // // Download file from MinIO
-        // await _minioClient.GetObjectAsync(new GetObjectArgs()
-        //     .WithBucket(bucketName)
-        //     .WithObject(objectPath)
-        //     .WithFile(destinationPath));
-        
-        // Console.WriteLine($"Document '{objectName}' downloaded from '{bucketName}/{objectPath}'.");
+        await _minioClient.RemoveObjectAsync(new RemoveObjectArgs()
+            .WithBucket(bucketName)
+            .WithObject(objectName)
+        );
     }
 }

@@ -10,6 +10,6 @@ public static class ServiceRegistration
 {
     public static void AddExternalRegistration(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IMinIOService, MinioService>();
+        services.AddScoped<IMinIOService, MinIOService>();
     }
 }
