@@ -5,6 +5,7 @@ using MediatR;
 using System.Threading.Tasks;
 using System.Threading;
 using CitizenFileManagement.Core.Domain.Enums;
+using CitizenFileManagement.Infrastructure.External.Services.MinIOService;
 
 namespace CitizenFileManagement.Core.Application.Features.Commands.User.Register
 {
@@ -13,12 +14,14 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.User.Register
         private readonly IUserRepository _userRepository;
         private readonly IEmailService _emailService;
         private readonly IFilePackRepository _filePackRepository;
+        private readonly IMinIOService _minIOService;
 
-        public RegisterUserCommandHandler(IUserRepository userRepository, IEmailService emailService, IFilePackRepository filePackRepository)
+        public RegisterUserCommandHandler(IUserRepository userRepository, IEmailService emailService, IFilePackRepository filePackRepository, IMinIOService minIOService)
         {
             _filePackRepository = filePackRepository;
             _userRepository = userRepository;
             _emailService = emailService;
+            _minIOService = minIOService;
         }
 
         public async Task<bool> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -48,6 +51,8 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.User.Register
                 .SetUser(user.Id);
             await _filePackRepository.AddAsync(filepack);
             await _filePackRepository.SaveAsync();
+
+            await _minIOService.EnsureBucketExistsAsync(user.Id+user.Username);
 
             // Send OTP email
             await _emailService.SendEmailAsync(user.Email, "OTP message", otp);
