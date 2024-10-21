@@ -99,3 +99,4 @@ Files/
 Infrastructure/CitizenFileManagement.Infrastructure.Persistence/Migrations/
 
 data/
+containers/
