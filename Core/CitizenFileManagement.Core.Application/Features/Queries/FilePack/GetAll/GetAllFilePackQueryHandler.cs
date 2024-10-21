@@ -11,21 +11,16 @@ using CitizenFileManagement.Core.Application.Features.Queries.Models;
 
 namespace CitizenFileManagement.Core.Application.Features.Queries.FilePack.GetAll;
 
-public class GetAllFilePackQueryHandler : IRequestHandler<GetAllFilePackQuery, ReturnItemModel<FilePackViewModel>>
+public class GetAllFilePackQueryHandler(IFilePackRepository filePackRepository, 
+    IUserManager userManager,
+    IUserRepository userRepository) : IRequestHandler<GetAllFilePackQuery, ReturnItemModel<FilePackViewModel>>
 {
-    private readonly IFilePackRepository _filePackRepository;
-    private readonly IUserManager _userManager;
-
-    public GetAllFilePackQueryHandler(IFilePackRepository filePackRepository, IUserManager userManager)
-    {
-        _filePackRepository = filePackRepository;
-        _userManager = userManager;
-    }
-
     public async Task<ReturnItemModel<FilePackViewModel>> Handle(GetAllFilePackQuery request, CancellationToken cancellationToken)
     {
-        var userId = _userManager.GetCurrentUserId();
-        var filePacks = await _filePackRepository.GetAllAsync(u => u.CreatorId == userId, "Documents");
+        var userId = userManager.GetCurrentUserId();
+        var user = await userRepository.GetAsync(u => u.Id == userId,"FilePacks");
+        var filePacks = await filePackRepository.GetAllAsync(u => u.CreatorId == userId, "Documents");
+        filePacks = filePacks.Where(f => f.Id != user.FilePacks.Select(fp => fp.Id).Min());
 
         // Filter the results
         filePacks = ApplyFilter(filePacks, request.FilterModel);
