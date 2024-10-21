@@ -1,6 +1,7 @@
 using CitizenFileManagement.Core.Application.Interfaces;
 using CitizenFileManagement.Core.Domain.Entities;
 using CitizenFileManagement.Infrastructure.External.Extensions;
+using CitizenFileManagement.Infrastructure.External.Services.MinIOService;
 using CitizenFileManagement.Infrastructure.External.Settings;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -9,50 +10,53 @@ using System.IO;
 
 namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Update
 {
-    public class UpdateDocumentCommandHandler : IRequestHandler<UpdateDocumentCommand, bool>
+    public class UpdateDocumentCommandHandler(IDocumentRepository documentRepository, 
+        IUserRepository userRepository, 
+        IUserManager userManager, 
+        IMinIOService minIOService) : IRequestHandler<UpdateDocumentCommand, bool>
     {
-        private readonly IDocumentRepository _documentRepository;
-        private readonly IUserManager _userManager;
-        private readonly IUserRepository _userRepository;
-        private readonly FileSettings _fileSettings;
-
-        public UpdateDocumentCommandHandler(IDocumentRepository documentRepository, IUserRepository userRepository, IUserManager userManager, IOptions<FileSettings> fileSettings)
-        {
-            _documentRepository = documentRepository;
-            _userManager = userManager;
-            _fileSettings = fileSettings.Value;
-            _userRepository = userRepository;
-        }
 
         public async Task<bool> Handle(UpdateDocumentCommand request, CancellationToken cancellationToken)
         {
-            var userId = _userManager.GetCurrentUserId();
+            var userId = userManager.GetCurrentUserId();
 
-            var user = await _userRepository.GetAsync(u => u.Id == userId);
+            var user = await userRepository.GetAsync(u => u.Id == userId);
 
-            foreach (var file in request.Files)
+            foreach (var documentDTO in request.documentDTOs)
             {
-                var document = await _documentRepository.GetAsync(d => d.Id == file.Id);
+                var document = await documentRepository.GetAsync(d => d.Id == documentDTO.Id);
 
-                document.Name = file.Name;
-                document.Description = file.Description;
-                document.Type = file.Type;
+                string documentPath = string.Empty;
+                string contentType = string.Empty;
 
-                if (file.File != null)
+                if (documentDTO.File != null)
                 {
-                    File.Delete(document.Path);
+                    // Get the file stream and metadata from the uploaded file
+                    var file = documentDTO.File;
+                    var fileName = $"{documentDTO.Name}";
+                    var bucketName = $"{user.Id}{user.Username}";
+                    contentType = file.ContentType;
 
-                    var filePath = await file.File.SaveAsync(_fileSettings.Path, user.Username,null);
+                    await minIOService.DeleteFileAsync(document.Path, bucketName);
 
-                    document.Path = filePath;
+                    // Upload the file to MinIO using the service
+                    using (var fileStream = file.OpenReadStream())
+                    {
+                        await minIOService.UploadFileAsync(fileName, fileStream, contentType, bucketName);
+                    }
+
+                    
+
+                    documentPath = fileName;
                 }
+                document.SetDetails(documentDTO.Name, documentPath, documentDTO.Type, contentType, documentDTO.Description);
 
                 document.SetCredentials(user.Id);
 
-                _documentRepository.Update(document);
+                documentRepository.Update(document);
             }
 
-            await _documentRepository.SaveAsync();
+            await documentRepository.SaveAsync();
 
             return true;
         }

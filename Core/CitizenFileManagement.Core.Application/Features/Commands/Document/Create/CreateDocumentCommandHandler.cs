@@ -6,46 +6,52 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System.IO;
+using CitizenFileManagement.Infrastructure.External.Services.MinIOService;
 
 namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Create
 {
-    public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentCommand, bool>
+    public class CreateDocumentCommandHandler(IDocumentRepository documentRepository, 
+        IUserRepository userRepository, 
+        IUserManager userManager,
+        IMinIOService minIOService) : IRequestHandler<CreateDocumentCommand, bool>
     {
-        private readonly IDocumentRepository _documentRepository;
-        private readonly IUserManager _userManager;
-        private readonly IUserRepository _userRepository;
-        private readonly FileSettings _fileSettings;
-
-        public CreateDocumentCommandHandler(IDocumentRepository documentRepository, IUserRepository userRepository, IUserManager userManager,IOptions<FileSettings> fileSettings)
-        {
-            _documentRepository = documentRepository;
-            _userManager = userManager;
-            _fileSettings = fileSettings.Value;
-            _userRepository = userRepository;
-        }
+        // depricated
+        // private readonly FileSettings _fileSettings;
 
         public async Task<bool> Handle(CreateDocumentCommand request, CancellationToken cancellationToken)
         {
-            var userId = _userManager.GetCurrentUserId();
+            var userId = userManager.GetCurrentUserId();
 
-            var user = await _userRepository.GetAsync(u => u.Id == userId, "FilePacks");
+            var user = await userRepository.GetAsync(u => u.Id == userId, "FilePacks");
 
             // TODO: Add User Nullable Check
 
             foreach (var documentDTO in request.Files)
             {
-                string filePath = await documentDTO.File.SaveAsync(_fileSettings.Path , user.Username, null);
+                // depricated code
+                // string filePath = await documentDTO.File.SaveAsync(_fileSettings.Path , user.Username, null);
+
+                // Get the file stream and metadata from the uploaded file
+                var file = documentDTO.File;
+                var fileName = $"{documentDTO.Name}_{Guid.NewGuid()}";
+                var bucketName = $"{user.Id}{user.Username}";
+
+                // Upload the file to MinIO using the service
+                using (var fileStream = file.OpenReadStream())
+                {
+                    await minIOService.UploadFileAsync(fileName, fileStream, file.ContentType, bucketName);
+                }
 
                 var document = new Domain.Entities.Document();
 
-                document.SetDetails(documentDTO.Name, filePath, documentDTO.Type, documentDTO.Description)
+                document.SetDetails(documentDTO.Name, fileName, documentDTO.Type, file.ContentType, documentDTO.Description)
                     .SetCredentials(userId)
                     .SetFilePack(user.FilePacks.Select(fp => fp.Id).Min());
 
-                await _documentRepository.AddAsync(document);
+                await documentRepository.AddAsync(document);
             }
 
-            await _documentRepository.SaveAsync();
+            await documentRepository.SaveAsync();
 
             return true;
         }

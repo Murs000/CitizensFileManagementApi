@@ -1,6 +1,7 @@
 using CitizenFileManagement.Core.Application.Interfaces;
 using CitizenFileManagement.Core.Domain.Entities;
 using CitizenFileManagement.Infrastructure.External.Extensions;
+using CitizenFileManagement.Infrastructure.External.Services.MinIOService;
 using CitizenFileManagement.Infrastructure.External.Settings;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -9,37 +10,29 @@ using System.IO;
 
 namespace CitizenFileManagement.Core.Application.Features.Commands.Document.Delete
 {
-    public class DeleteDocumentCommandHandler : IRequestHandler<DeleteDocumentCommand, bool>
+    public class DeleteDocumentCommandHandler(IDocumentRepository documentRepository, 
+        IUserRepository userRepository, 
+        IUserManager userManager,
+        IMinIOService minIOService) : IRequestHandler<DeleteDocumentCommand, bool>
     {
-        private readonly IDocumentRepository _documentRepository;
-        private readonly IUserManager _userManager;
-        private readonly IUserRepository _userRepository;
-
-        public DeleteDocumentCommandHandler (IDocumentRepository documentRepository, IUserRepository userRepository, IUserManager userManager)
-        {
-            _documentRepository = documentRepository;
-            _userManager = userManager;
-            _userRepository = userRepository;
-        }
-
         public async Task<bool> Handle(DeleteDocumentCommand request, CancellationToken cancellationToken)
         {
-            var userId = _userManager.GetCurrentUserId();
+            var userId = userManager.GetCurrentUserId();
 
-            var user = await _userRepository.GetAsync(u => u.Id == userId);
+            var user = await userRepository.GetAsync(u => u.Id == userId);
 
             foreach(var id in request.DeletedFiles)
             {
-                var document = await _documentRepository.GetAsync(d => d.Id == id);
+                var document = await documentRepository.GetAsync(d => d.Id == id);
 
-                File.Delete(document.Path);
+                await minIOService.DeleteFileAsync(document.Path, $"{user.Id}{user.Username}");
 
                 document.SetCredentials(user.Id);
 
-                _documentRepository.SoftDelete(document);
+                documentRepository.SoftDelete(document);
             }
 
-            await _documentRepository.SaveAsync();
+            await documentRepository.SaveAsync();
 
             return true;
         }
