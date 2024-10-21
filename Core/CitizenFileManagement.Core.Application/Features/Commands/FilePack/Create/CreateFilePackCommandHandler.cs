@@ -7,31 +7,24 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System.IO;
 using CitizenFileManagement.Core.Domain.Enums;
+using CitizenFileManagement.Infrastructure.External.Services.MinIOService;
 
 namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Create
 {
-    public class CreateFilePackCommandHandler : IRequestHandler<CreateFilePackCommand, bool>
+    public class CreateFilePackCommandHandler(IFilePackRepository filePackRepository,
+        IDocumentRepository documentRepository, 
+        IUserRepository userRepository, 
+        IUserManager userManager, 
+        IMinIOService minIOService) : IRequestHandler<CreateFilePackCommand, bool>
     {
-        private readonly IFilePackRepository _filePackRepository;
-        private readonly IDocumentRepository _documentRepository;
-        private readonly IUserManager _userManager;
-        private readonly IUserRepository _userRepository;
-        private readonly FileSettings _fileSettings;
-
-        public CreateFilePackCommandHandler(IFilePackRepository filePackRepository,IDocumentRepository documentRepository, IUserRepository userRepository, IUserManager userManager, IOptions<FileSettings> fileSettings)
-        {
-            _filePackRepository = filePackRepository;
-            _documentRepository = documentRepository;
-            _userManager = userManager;
-            _fileSettings = fileSettings.Value;
-            _userRepository = userRepository;
-        }
+        // depricated code
+        // private readonly FileSettings _fileSettings;
 
         public async Task<bool> Handle(CreateFilePackCommand request, CancellationToken cancellationToken)
         {
-            var userId = _userManager.GetCurrentUserId();
+            var userId = userManager.GetCurrentUserId();
 
-            var user = await _userRepository.GetAsync(u => u.Id == userId);
+            var user = await userRepository.GetAsync(u => u.Id == userId);
 
             foreach (var pack in request.FilePacks)
             {
@@ -42,24 +35,35 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Crea
                     .SetUser(userId);
                 filePack.Documents = [];
 
-                await _filePackRepository.AddAsync(filePack);
-                await _filePackRepository.SaveAsync();
+                await filePackRepository.AddAsync(filePack);
+                await filePackRepository.SaveAsync();
 
                 if(pack.Files != null)
                 {
                     foreach (var file in pack.Files)
                     {
-                        string filePath = await file.SaveAsync(_fileSettings.Path, user.Username, pack.Name);
+                        // depricated code
+                        // string filePath = await file.SaveAsync(_fileSettings.Path, user.Username, pack.Name);
+
+                        // Get the file stream and metadata from the uploaded file
+                        var fileName = $"{pack.Name}/{file.FileName}_{Guid.NewGuid()}";
+                        var bucketName = $"{user.Id}{user.Username}";
+
+                        // Upload the file to MinIO using the service
+                        using (var fileStream = file.OpenReadStream())
+                        {
+                            await minIOService.UploadFileAsync(fileName, fileStream, file.ContentType, bucketName);
+                        }
 
                         var document = new Domain.Entities.Document();
 
-                        document.SetDetails(file.FileName, filePath, DocumentType.Other, null)
+                        document.SetDetails(file.FileName, fileName, DocumentType.Other, file.ContentType, null)
                             .SetFilePack(filePack.Id)
                             .SetCredentials(userId);
 
-                        await _documentRepository.AddAsync(document);
+                        await documentRepository.AddAsync(document);
                     }
-                    await _documentRepository.SaveAsync();
+                    await documentRepository.SaveAsync();
                 }
             }
 

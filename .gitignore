@@ -97,3 +97,5 @@ out/
 **/obj/
 Files/
 Infrastructure/CitizenFileManagement.Infrastructure.Persistence/Migrations/
+
+data/

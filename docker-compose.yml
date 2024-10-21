@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  minio:
+    image: minio/minio
+    container_name: minio
+    environment:
+      - MINIO_ROOT_USER=youraccesskey     # Set your MinIO access key
+      - MINIO_ROOT_PASSWORD=yoursecretkey # Set your MinIO secret key
+    volumes:
+      - ./data/minio:/data                # Persist data in the host
+    ports:
+      - "9000:9000"                       # MinIO server port
+      - "9001:9001"                       # MinIO Console port
+    command: server /data --console-address ":9001"
+    restart: always
+
+  minio-console:
+    image: minio/mc
+    container_name: minio-console
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      while ! nc -z minio 9000;
+      do
+        echo 'Waiting for MinIO to start...';
+        sleep 3;
+      done;
+      mc alias set minio http://minio:9000 youraccesskey yoursecretkey;
+      mc mb minio/mybucket;
+      mc policy set public minio/mybucket"

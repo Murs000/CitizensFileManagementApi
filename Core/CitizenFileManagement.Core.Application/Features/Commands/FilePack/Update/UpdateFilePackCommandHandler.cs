@@ -7,46 +7,36 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System.IO;
 using CitizenFileManagement.Core.Domain.Enums;
+using CitizenFileManagement.Infrastructure.External.Services.MinIOService;
 
 namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Update
 {
-    public class UpdateFilePackCommandHandler : IRequestHandler<UpdateFilePackCommand, bool>
+    public class UpdateFilePackCommandHandler(IFilePackRepository filePackRepository, 
+        IDocumentRepository documentRepository, 
+        IUserRepository userRepository, 
+        IUserManager userManager,
+        IMinIOService minIOService) : IRequestHandler<UpdateFilePackCommand, bool>
     {
-        private readonly IDocumentRepository _documentRepository;
-        private readonly IUserManager _userManager;
-        private readonly IUserRepository _userRepository;
-        private readonly FileSettings _fileSettings;
-        private readonly IFilePackRepository _filePackRepository;
-
-        public UpdateFilePackCommandHandler(IFilePackRepository filePackRepository, IDocumentRepository documentRepository, IUserRepository userRepository, IUserManager userManager, IOptions<FileSettings> fileSettings)
-        {
-            _filePackRepository = filePackRepository;
-            _documentRepository = documentRepository;
-            _userManager = userManager;
-            _fileSettings = fileSettings.Value;
-            _userRepository = userRepository;
-        }
-
         public async Task<bool> Handle(UpdateFilePackCommand request, CancellationToken cancellationToken)
         {
-            var userId = _userManager.GetCurrentUserId();
+            var userId = userManager.GetCurrentUserId();
 
-            var user = await _userRepository.GetAsync(u => u.Id == userId);
+            var user = await userRepository.GetAsync(u => u.Id == userId);
 
             foreach (var id in request.FileIds)
             {
-                var file = await _documentRepository.GetAsync(uf => uf.Id == id);
+                var file = await documentRepository.GetAsync(uf => uf.Id == id);
 
-                File.Delete(file.Path);
+                await minIOService.DeleteFileAsync(file.Path,$"{user.Id}{user.Username}");
 
                 file.SetCredentials(userId);
 
-                _documentRepository.SoftDelete(file);
+                documentRepository.SoftDelete(file);
             }
 
             foreach(var pack in request.Files)
             {
-                var filePack = await _filePackRepository.GetAsync(fp => fp.Id == pack.Id);
+                var filePack = await filePackRepository.GetAsync(fp => fp.Id == pack.Id);
 
                 filePack.Name = pack.Name;
                 filePack.Description = pack.Description;
@@ -55,22 +45,30 @@ namespace CitizenFileManagement.Core.Application.Features.Commands.FilePack.Upda
                 {
                     foreach (var file in pack.Files)
                     {
-                        string filePath = await file.SaveAsync(_fileSettings.Path, user.Username, pack.Name);
+                        // Get the file stream and metadata from the uploaded file
+                        var fileName = $"{pack.Name}/{file.FileName}";
+                        var bucketName = $"{user.Id}{user.Username}";
+
+                        // Upload the file to MinIO using the service
+                        using (var fileStream = file.OpenReadStream())
+                        {
+                            await minIOService.UploadFileAsync(fileName, fileStream, file.ContentType, bucketName);
+                        }
 
                         var document = new Domain.Entities.Document();
 
-                        document.SetDetails(file.FileName, filePath, DocumentType.Other, null);
-                        await _documentRepository.AddAsync(document);
+                        document.SetDetails(file.FileName, fileName, DocumentType.Other, file.ContentType, null);
+                        await documentRepository.AddAsync(document);
 
                         filePack.Documents.Add(document);
                     }
-                    await _documentRepository.SaveAsync();
+                    await documentRepository.SaveAsync();
                 }
                 filePack.SetCredentials(userId);
 
-                _filePackRepository.Update(filePack);
+                filePackRepository.Update(filePack);
             }
-            await _filePackRepository.SaveAsync();
+            await filePackRepository.SaveAsync();
 
             return true;
         }
