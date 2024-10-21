@@ -7,39 +7,41 @@ using CitizenFileManagement.Core.Application.Features.Queries.User.ViewModels;
 using CitizenFileManagement.Core.Application.Features.Queries.Document.ViewModels;
 using CitizenFileManagement.Core.Application.Features.Queries.Models;
 using CitizenFileManagement.Infrastructure.External.Helpers;
+using CitizenFileManagement.Infrastructure.External.Services.MinIOService;
 
 namespace CitizenFileManagement.Core.Application.Features.Queries.Document.Get;
 
-public class GetDocumentQueryHandler : IRequestHandler<GetDocumentQuery, ReturnDocumentModel>
+public class GetDocumentQueryHandler(IDocumentRepository documentRepository, 
+    IUserManager userManager,
+    IUserRepository userRepository,
+    IMinIOService minIOService) : IRequestHandler<GetDocumentQuery, ReturnDocumentModel>
 {
-    private readonly IDocumentRepository _documentRepository;
-    private readonly IUserManager _userManager;
-
-    public GetDocumentQueryHandler(IDocumentRepository documentRepository, IUserManager userManager)
-    {
-        _documentRepository = documentRepository;
-        _userManager = userManager;
-    }
 
     public async Task<ReturnDocumentModel> Handle(GetDocumentQuery request, CancellationToken cancellationToken)
     {
-        var userId = _userManager.GetCurrentUserId();
-        var document = await _documentRepository.GetAsync(u => u.CreatorId == userId && u.Id == request.DocumentId);
+        var userId = userManager.GetCurrentUserId();
+        var user = await userRepository.GetAsync(u => u.Id == userId);
+        var document = await documentRepository.GetAsync(u => u.CreatorId == userId && u.Id == request.DocumentId);
 
         if (document == null)
         {
             throw new NotFoundException("Document not found.");
         }
 
-        var fileExtension = Path.GetExtension(document.Path).ToLowerInvariant();
-        
-        var contentType = FileExtensionHelper.GetExtension(fileExtension);
+        var file = await minIOService.DownloadFileAsync(document.Path,$"{user.Id}{user.Username}");
+        byte[] bytes = [];
+
+        using (MemoryStream memoryStream = new MemoryStream())
+        {
+            file.CopyTo(memoryStream);  // Copy the stream to MemoryStream
+            bytes = memoryStream.ToArray();    // Convert MemoryStream to byte array
+        }
 
         return new ReturnDocumentModel
         {
-            Name = document.Name + fileExtension,
-            Type = contentType,
-            Bytes = await File.ReadAllBytesAsync(document.Path, cancellationToken)
+            Name = document.Name,
+            Type = document.ContentType,
+            Bytes = bytes
         };
     }
 }

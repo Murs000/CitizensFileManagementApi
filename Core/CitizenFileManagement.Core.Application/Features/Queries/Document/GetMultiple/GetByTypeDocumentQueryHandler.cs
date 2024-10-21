@@ -1,30 +1,24 @@
 using MediatR;
 using CitizenFileManagement.Core.Application.Interfaces;
 using CitizenFileManagement.Core.Application.Common.Exceptions;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
-using CitizenFileManagement.Core.Application.Features.Queries.User.ViewModels;
-using CitizenFileManagement.Core.Application.Features.Queries.Document.ViewModels;
 using System.IO.Compression;
 using CitizenFileManagement.Core.Application.Features.Queries.Models;
+using CitizenFileManagement.Infrastructure.External.Services.MinIOService;
+using CitizenFileManagement.Infrastructure.External.Helpers;
 
 namespace CitizenFileManagement.Core.Application.Features.Queries.Document.GetMultiple;
 
-public class GetByTypeDocumentQueryHandler : IRequestHandler<GetByTypeDocumentQuery, ReturnDocumentModel>
+public class GetByTypeDocumentQueryHandler(IDocumentRepository documentRepository, 
+    IUserManager userManager, 
+    IUserRepository userRepository,
+    IMinIOService minIOService) : IRequestHandler<GetByTypeDocumentQuery, ReturnDocumentModel>
 {
-    private readonly IDocumentRepository _documentRepository;
-    private readonly IUserManager _userManager;
-
-    public GetByTypeDocumentQueryHandler(IDocumentRepository documentRepository, IUserManager userManager)
-    {
-        _documentRepository = documentRepository;
-        _userManager = userManager;
-    }
 
     public async Task<ReturnDocumentModel> Handle(GetByTypeDocumentQuery request, CancellationToken cancellationToken)
     {
-        var userId = _userManager.GetCurrentUserId();
-        var documents = await _documentRepository.GetAllAsync(u => u.CreatorId == userId && u.Type == request.Type);
+        var userId = userManager.GetCurrentUserId();
+        var user = await userRepository.GetAsync(u => u.Id == userId);
+        var documents = await documentRepository.GetAllAsync(u => u.CreatorId == userId && u.Type == request.Type);
 
         if (documents == null || !documents.Any())
         {
@@ -36,21 +30,24 @@ public class GetByTypeDocumentQueryHandler : IRequestHandler<GetByTypeDocumentQu
         {
             foreach (var document in documents)
             {
-                var filePath = document.Path; // Full path of the document
-                var fileName = document.Name; // File name from your database, including the extension
-                var fileExtencion = Path.GetExtension(filePath);
+                var filePath = document.Path; // Path from the database stored in MinIO
+                var fileName = document.Name; // File name from your database
 
-                if (!File.Exists(filePath))
+                // Retrieve the file from MinIO
+                var fileStream = await minIOService.DownloadFileAsync(filePath, $"{user.Id}{user.Username}");
+                if (fileStream == null)
                 {
-                    throw new NotFoundException($"File {fileName} not found on the server.");
+                    throw new NotFoundException($"File {fileName} not found in storage.");
                 }
 
-                // Add the document to the zip with its original name and extension
-                var zipEntry = zipArchive.CreateEntry(fileName + fileExtencion, CompressionLevel.Fastest);
-                using var entryStream = zipEntry.Open();
+                fileName += FileExtensionHelper.GetExtension(document.ContentType); 
 
-                var fileContent = await File.ReadAllBytesAsync(filePath, cancellationToken);
-                await entryStream.WriteAsync(fileContent, 0, fileContent.Length, cancellationToken);
+                // Add the document to the zip archive
+                var zipEntry = zipArchive.CreateEntry(fileName, CompressionLevel.Fastest);
+                using var entryStream = zipEntry.Open();
+                
+                // Copy content from MinIO file stream to the zip entry stream
+                await fileStream.CopyToAsync(entryStream, cancellationToken);
             }
         }
 
