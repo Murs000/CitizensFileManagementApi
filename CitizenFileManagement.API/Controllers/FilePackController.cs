@@ -21,22 +21,6 @@ namespace CitizenFileManagement.API.Controllers
         {
             _mediator = mediator;
         }
-
-        [HttpPost("create")]
-        public async Task<IActionResult> Create([FromForm]CreateFilePackCommand command)
-        {
-            return Ok(await _mediator.Send(command));
-        }
-        [HttpPut("update")]
-        public async Task<IActionResult> Update([FromForm]UpdateFilePackCommand command)
-        {
-            return Ok(await _mediator.Send(command));
-        }
-        [HttpDelete("delete")]
-        public async Task<IActionResult> Delete(List<int> ids)
-        {
-            return Ok(await _mediator.Send(new DeleteFilePackCommand{ FileIds = ids}));
-        }
         [HttpGet("get-all")]
         public async Task<IActionResult> GetAll([FromQuery] PaginationModel? paginationModel, [FromQuery] FilterModel? filterModel)
         {
@@ -50,6 +34,21 @@ namespace CitizenFileManagement.API.Controllers
             var returnDocumentViewModel = await _mediator.Send(query);
 
             return File(returnDocumentViewModel.Bytes, returnDocumentViewModel.Type, returnDocumentViewModel.Name);
+        }
+        [HttpPost("create")]
+        public async Task<IActionResult> Create([FromForm]CreateFilePackCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+        [HttpPut("update")]
+        public async Task<IActionResult> Update([FromForm]UpdateFilePackCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+        [HttpDelete("delete")]
+        public async Task<IActionResult> Delete(DeleteFilePackCommand command)
+        {
+            return Ok(await _mediator.Send(command));
         }
     }
 }

@@ -143,3 +143,9 @@
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/logs/log-20241018.json
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/logs/log-20241019.json
 /Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/logs/log-20241020.json
+/Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/CommunityToolkit.HighPerformance.dll
+/Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/Minio.dll
+/Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/System.IO.Hashing.dll
+/Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/System.Reactive.dll
+/Users/mursal/Projects/CitizensFileManagementApi/CitizenFileManagement.API/bin/Debug/net8.0/logs/log-20241021.json
