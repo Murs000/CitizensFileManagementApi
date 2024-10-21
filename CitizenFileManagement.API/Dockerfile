@@ -24,7 +24,7 @@ RUN dotnet publish "CitizenFileManagement.API.csproj" -c $configuration -o /app/
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=publish /app/publish .  
 ENTRYPOINT ["dotnet", "CitizenFileManagement.API.dll"]
 
 

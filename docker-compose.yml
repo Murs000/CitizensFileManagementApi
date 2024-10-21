@@ -2,7 +2,7 @@
 services:
   citizenfilemanagementapi:
     container_name: Web-Api
-    image: citizenfilemanagementapi
+    image: murs000/citizen-file-management-api:latest
     build:
       context: .
       dockerfile: CitizenFileManagement.API/Dockerfile
