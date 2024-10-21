@@ -14,9 +14,9 @@ services:
       - Minio__Endpoint=http://minio:9000
       - Minio__AccessKey=minioadmin
       - Minio__SecretKey=minioadmin123
-    # depends_on:
-    #   - postgresdb
-    #   - minio
+    depends_on:
+      - postgresdb
+      - minio
 
   postgresdb:
     container_name: DataBase
@@ -26,7 +26,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: your_password
     ports:
-      - 5434:5434
+      - 5434:5432
     volumes:
       - ./containers/products-db:/var/lib/postgresql/data
 
