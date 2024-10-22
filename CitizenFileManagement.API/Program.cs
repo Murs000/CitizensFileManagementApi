@@ -79,8 +79,8 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddHttpContextAccessor();
 
 // Configure Serilog
-builder.Host.UseSerilog((context, configuration) => 
-    configuration.ReadFrom.Configuration(context.Configuration));
+// builder.Host.UseSerilog((context, configuration) => 
+//     configuration.ReadFrom.Configuration(context.Configuration));
 
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
