@@ -63,7 +63,7 @@ The System File Management API is designed to handle file storage and management
   - Helpers for file extensions, password hashing, OTP, and more.
   
 ### Features
-
+Written using **MediatR** library.
 - **Commands**:
   - `Document`: Create, Delete, Update.
   - `FilePack`: Create, Delete, Update.
@@ -98,6 +98,7 @@ The System File Management API is designed to handle file storage and management
 - **FluentValidation** for request validation
 - **JWT** for authentication
 - **Swagger** for API documentation
+- **MediatR** for mediator pattern
 
 ## How to Run
 
