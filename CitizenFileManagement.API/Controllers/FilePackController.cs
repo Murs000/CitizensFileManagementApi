@@ -50,5 +50,16 @@ namespace CitizenFileManagement.API.Controllers
         {
             return Ok(await _mediator.Send(command));
         }
+        [HttpDelete("add-document")]
+        public async Task<IActionResult> AddDocument(DeleteFilePackCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+        [HttpDelete("remove-document")]
+        public async Task<IActionResult> RemoveDocument(DeleteFilePackCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+        
     }
 }
