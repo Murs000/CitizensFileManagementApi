@@ -1,5 +1,7 @@
+using CitizenFileManagement.Core.Application.Features.Commands.FilePack.AddDocument;
 using CitizenFileManagement.Core.Application.Features.Commands.FilePack.Create;
 using CitizenFileManagement.Core.Application.Features.Commands.FilePack.Delete;
+using CitizenFileManagement.Core.Application.Features.Commands.FilePack.RemoveDocument;
 using CitizenFileManagement.Core.Application.Features.Commands.FilePack.Update;
 using CitizenFileManagement.Core.Application.Features.Queries.FilePack.Get;
 using CitizenFileManagement.Core.Application.Features.Queries.FilePack.GetAll;
@@ -51,12 +53,12 @@ namespace CitizenFileManagement.API.Controllers
             return Ok(await _mediator.Send(command));
         }
         [HttpDelete("add-document")]
-        public async Task<IActionResult> AddDocument(DeleteFilePackCommand command)
+        public async Task<IActionResult> AddDocument(AddDocumentFilePackCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
         [HttpDelete("remove-document")]
-        public async Task<IActionResult> RemoveDocument(DeleteFilePackCommand command)
+        public async Task<IActionResult> RemoveDocument(RemoveDocumentFilePackCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
