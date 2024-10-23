@@ -14,4 +14,6 @@ public interface IMinIOService
     public Task<Stream> DownloadFileAsync(string objectName,string bucketName);
     // Delete a file
     public Task DeleteFileAsync(string objectName,string bucketName);
+    // Simulate moving a file by copying it to a new path and deleting the old one
+    public Task MoveFileAsync(string objectName, string bucketName, string newObjectName);
 }

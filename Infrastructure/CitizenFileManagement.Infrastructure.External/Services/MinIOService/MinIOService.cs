@@ -30,7 +30,7 @@ public class MinIOService : IMinIOService
     }
 
     // Upload a file
-    public async Task UploadFileAsync(string objectName, Stream fileStream, string contentType,string bucketName)
+    public async Task UploadFileAsync(string objectName, Stream fileStream, string contentType, string bucketName)
     {
         await EnsureBucketExistsAsync(bucketName);
 
@@ -44,7 +44,7 @@ public class MinIOService : IMinIOService
     }
 
     // Download a file
-    public async Task<Stream> DownloadFileAsync(string objectName,string bucketName)
+    public async Task<Stream> DownloadFileAsync(string objectName, string bucketName)
     {
         var memoryStream = new MemoryStream();
         await _minioClient.GetObjectAsync(new GetObjectArgs()
@@ -60,11 +60,24 @@ public class MinIOService : IMinIOService
     }
 
     // Delete a file
-    public async Task DeleteFileAsync(string objectName,string bucketName)
+    public async Task DeleteFileAsync(string objectName, string bucketName)
     {
         await _minioClient.RemoveObjectAsync(new RemoveObjectArgs()
             .WithBucket(bucketName)
             .WithObject(objectName)
         );
+    }
+    // Simulate moving a file by copying it to a new path and deleting the old one
+    public async Task MoveFileAsync(string objectName, string bucketName, string newObjectName)
+    {
+        await _minioClient.CopyObjectAsync(new CopyObjectArgs()
+            .WithBucket(bucketName)
+            .WithObject(newObjectName)
+            .WithCopyObjectSource(new CopySourceObjectArgs()
+                .WithBucket(bucketName)
+                .WithObject(objectName)));
+
+        // Delete the original file after copying
+        await DeleteFileAsync(objectName, bucketName);
     }
 }
